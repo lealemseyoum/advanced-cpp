@@ -44,6 +44,7 @@ OPEN = re.compile(r"^```(\S*)\s*$")
 CLOSE = re.compile(r"^```\s*$")
 HEADER = re.compile(r"^//\s*@test\s+(\w+)\s*(.*)$")
 MAX_OUT_LINES = 70
+FOLD = re.compile(r"^\s*</?(details|summary)\b.*$")  # collapsible wrappers may sit between a snippet and its output
 
 
 @dataclass
@@ -126,7 +127,7 @@ def collect(path: pathlib.Path) -> list[Test]:
         if idx + 1 < len(blocks):
             nb = blocks[idx + 1]
             between = lines[b.end + 1 : nb.start]
-            if all(not s.strip() for s in between) and nb.body:
+            if all(not s.strip() or FOLD.match(s) for s in between) and nb.body:
                 head = nb.body[0]
                 if mode in ("run", "crash") and nb.lang == "text" and head.startswith("# output"):
                     t.out_block = nb
