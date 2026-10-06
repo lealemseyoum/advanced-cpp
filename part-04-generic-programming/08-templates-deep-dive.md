@@ -329,7 +329,7 @@ The mangled name `_Z5twiceIiET_S0_` reads: function `twice` (5 chars), template 
 ### Experiment 2: Two-phase lookup, observed
 
 ```cpp
-// @test fail -std=c++23 err=not declared
+// @test fail -std=c++23 err=declared
 template <class T>
 void f(T t) {
     undeclared_function(1);   // non-dependent and not declared: diagnosed at DEFINITION time
