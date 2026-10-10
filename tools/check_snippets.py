@@ -14,6 +14,9 @@ Modes
     asm     compile with -S and capture the assembly (filter=sub1,sub2 keeps only
             functions whose demangled label contains one of the substrings)
     skip    not tested (the rest of the line is the reason)
+    file    `// @test file NAME [flags]`: a shared header. It is compile-checked on its own
+            (inside a TU that just includes it) and written as NAME next to every other
+            snippet of the same chapter, so later snippets can `#include "NAME"`.
 
 Output blocks
     A ```text block that directly follows a `run` / `crash` block and starts with
@@ -69,6 +72,8 @@ class Test:
     lines: int = 0
     reason: str = ""
     out_block: Block | None = None
+    shared: dict = field(default_factory=dict)   # name -> source, from `@test file` blocks of the same chapter
+    fname: str = ""
 
 
 def parse_blocks(lines: list[str]) -> list[Block]:
@@ -104,6 +109,11 @@ def collect(path: pathlib.Path) -> list[Test]:
             continue
         mode, rest = m.group(1), m.group(2).strip()
         t = Test(path, b, mode)
+        if mode == "file":
+            parts = rest.split()
+            t.fname = parts[0]
+            rest = " ".join(parts[1:])
+            t.mode = "compile"
         if mode == "skip":
             t.reason = rest
             tests.append(t)
@@ -134,6 +144,9 @@ def collect(path: pathlib.Path) -> list[Test]:
                 if mode == "asm" and nb.lang == "asm" and head.startswith("; asm"):
                     t.out_block = nb
         tests.append(t)
+    shared = {t.fname: "\n".join(t.block.body) + "\n" for t in tests if t.fname}
+    for t in tests:
+        t.shared = shared
     return tests
 
 
@@ -202,6 +215,10 @@ def execute(t: Test, default_cxx: str, update: bool):
     src_body = "\n".join(t.block.body) + "\n"
     with tempfile.TemporaryDirectory(prefix="snip-") as d:
         d = pathlib.Path(d)
+        for name, src in t.shared.items():
+            (d / name).write_text(src)
+        if t.fname:                                   # a shared header: check it in a TU of its own
+            src_body = f'#include "{t.fname}"\nint main() {{}}\n'
         (d / "snippet.cpp").write_text(src_body)
         if t.mode == "compile":
             rc, out, err = run([cxx, *flags, "-c", "snippet.cpp", "-o", "/dev/null"], d, 120)
