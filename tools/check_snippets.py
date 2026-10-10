@@ -144,7 +144,17 @@ def collect(path: pathlib.Path) -> list[Test]:
                 if mode == "asm" and nb.lang == "asm" and head.startswith("; asm"):
                     t.out_block = nb
         tests.append(t)
-    shared = {t.fname: "\n".join(t.block.body) + "\n" for t in tests if t.fname}
+    shared = {}
+    for sib in sorted(path.parent.glob("*.md")):          # headers of sibling chapters in the same part directory
+        if sib == path:
+            continue
+        sib_blocks = parse_blocks(sib.read_text().split("\n"))
+        for b in sib_blocks:
+            if b.lang in ("cpp", "c++") and b.body:
+                m = HEADER.match(b.body[0])
+                if m and m.group(1) == "file":
+                    shared[m.group(2).split()[0]] = "\n".join(b.body) + "\n"
+    shared.update({t.fname: "\n".join(t.block.body) + "\n" for t in tests if t.fname})   # own headers win
     for t in tests:
         t.shared = shared
     return tests
