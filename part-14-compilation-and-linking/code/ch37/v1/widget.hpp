@@ -1,0 +1,11 @@
+#pragma once
+#include <memory>
+class Widget {
+public:
+    Widget();
+    ~Widget();
+    int value() const;
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+};
