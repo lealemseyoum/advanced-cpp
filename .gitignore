@@ -1,0 +1,7 @@
+# build products
+*.o
+*.pcm
+*.gcm
+gcm.cache/
+build/
+*.data
