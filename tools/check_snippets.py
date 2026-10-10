@@ -159,8 +159,9 @@ def clean_asm(text: str, filt: list[str]) -> str:
     dem = subprocess.run(["c++filt"], input=text, capture_output=True, text=True).stdout
     funcs, cur = [], None
     for ln in dem.split("\n"):
+        ln = re.sub(r"\s+(//|#\s).*$", "", ln)       # trailing comments (Clang label comments, AArch64 '//')
         s = ln.strip()
-        if not s or s.startswith(("#", ";")):
+        if not s or s.startswith(("#", ";", "//")):
             continue
         is_label = (not ln[0].isspace()) and s.endswith(":")
         if is_label:
@@ -168,7 +169,7 @@ def clean_asm(text: str, filt: list[str]) -> str:
                 cur = None
                 continue
             if s.startswith(".L"):  # real jump targets (.L2:) stay; CFI/debug labels (.LFB0:) go
-                if cur is not None and re.match(r"^\.L\d+:$", s):
+                if cur is not None and re.match(r"^\.L(BB)?\d+(_\d+)?:$", s):
                     cur.append(ln)
                 continue
             cur = [ln]
@@ -356,7 +357,8 @@ def main() -> int:
                 cxx = pick_cxx(t.cxx, args.cxx)
                 ver = version_of(cxx)
                 if t.mode == "asm":
-                    head = f"; asm ({ver}, {' '.join(x for x in t.flags if x.startswith('-O')) or '-O0'}, x86-64, Intel syntax)"
+                    arch = "AArch64, GNU syntax" if any(x.startswith("--target=aarch64") for x in t.flags) else "x86-64, Intel syntax"
+                    head = f"; asm ({ver}, {' '.join(x for x in t.flags if x.startswith('-O')) or '-O0'}, {arch})"
                 else:
                     head = f"# output ({ver}, x86-64 Linux)"
                 body = [head] + trim(captured, t.lines)
