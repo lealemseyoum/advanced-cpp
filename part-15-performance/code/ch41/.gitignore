@@ -1,0 +1,16 @@
+lv
+lvc
+lto_off
+lto_on
+pgo_base
+pgo_x
+n2
+nf
+nfc
+*.gcda
+*.o
+c_off
+c_on
+pgo_gen
+pgo_use
+pgo_o3
