@@ -235,8 +235,47 @@ def execute(t: Test, default_cxx: str, update: bool):
                 return False, "expected a non-zero exit status", None
             if t.err and not re.search(t.err, out + err):
                 return False, f"output did not match /{t.err}/:\n{(out + err)[-1200:]}", None
-            return True, f"exited with {rc}, as intended", (out + err)
+            return True, f"exited with {rc}, as intended", normalise_crash(out + err)
     return False, f"unknown mode {t.mode}", None
+
+
+def normalise_crash(text: str) -> str:
+    """Make sanitizer / abort output reproducible and readable: strip temp paths, addresses, pids,
+    build ids, binary offsets, libc start-up frames, ASan shadow dumps and libstdc++ internal frames."""
+    keep: list[str] = []
+    in_shadow = False
+    elided = False
+    for line in text.split("\n"):
+        if line.startswith("Shadow bytes around the buggy address"):
+            in_shadow = True
+            keep.append("[ASan shadow-memory dump and legend omitted]")
+            continue
+        if in_shadow:
+            if line.startswith("==") and "ABORTING" in line:
+                in_shadow = False
+                keep.append(re.sub(r"==\d+==", "==PID==", line))
+            continue
+        if re.search(r"__libc_start|libc-start|\b_start \(", line):
+            continue
+        if re.match(r"^ ([0-9a-f]{2} ?)+\s*$", line) or re.match(r"^\s+\^~*\s*$", line):
+            continue                                   # UBSan raw memory dumps contain stack garbage
+        if re.match(r"^\s+#\d+ ", line) and "/usr/include/c++/" in line and "snippet.cpp" not in line:
+            if not elided:
+                keep.append("    [... libstdc++ internal frames elided ...]")
+                elided = True
+            continue
+        if not re.match(r"^\s+#\d+ ", line):
+            elided = False
+        line = re.sub(r" \(BuildId: [0-9a-f]+\)", "", line)
+        line = re.sub(r" \((snippet|lib[\w.+-]*)\+0x[0-9a-f]+\)", "", line)
+        line = re.sub(r"/tmp/snip-[^/]+/", "", line)
+        line = re.sub(r"==\d+==", "==PID==", line)
+        line = re.sub(r"\(pid=\d+\)", "(pid=N)", line)
+        line = re.sub(r"\(tid=\d+, ", "(tid=N, ", line)
+        line = re.sub(r"0x[0-9a-f]{6,}", "0xADDR", line)
+        line = re.sub(r"\+0x[0-9a-f]{2,6}\)", "+0x…)", line)
+        keep.append(line)
+    return "\n".join(keep)
 
 
 def version_of(cxx: str) -> str:
