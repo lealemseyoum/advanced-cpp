@@ -850,7 +850,7 @@ b after self-move: 1
 | **Task queues** | `std::move_only_function` (C++23) and moving tasks into a queue instead of copying their captures |
 | **Qt** | `QString`/`QVector` use *implicit sharing* (copy-on-write, reference-counted) to make copies cheap; since Qt 6 they also have move constructors. Moves are cheaper still: no atomic reference-count traffic |
 
-A concrete rule for APIs (cross-reference [Chapter 43](../part-17-library-design/43-api-design.md)):
+A concrete rule for APIs (cross-reference [Chapter 42](../part-16-library-design/42-api-design.md)):
 
 | Parameter you *store* | Signature | Cost |
 |---|---|---|

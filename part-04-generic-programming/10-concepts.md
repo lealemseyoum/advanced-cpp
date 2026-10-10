@@ -577,7 +577,7 @@ int main() {
   virtual, heterogeneous    :  1033.2 ms
 ```
 
-*How to read this.* The three template versions are **the same machine code** (check it with `-S`): the constraint costs nothing at runtime because it exists only during overload resolution. The virtual version is slower here for **two reasons that should not be confused**: (1) the dispatch itself, an indirect call per element which the compiler cannot inline or vectorize, and (2) **memory layout**: 10⁶ separately allocated heap objects instead of one contiguous array of doubles. Chapter 27 separates the two; the cache effect dominates. The timings are indicative, not a rigorous benchmark (Chapter 40 explains what this one omits: pinning, warm-up, variance).
+*How to read this.* The three template versions are **the same machine code** (check it with `-S`): the constraint costs nothing at runtime because it exists only during overload resolution. The virtual version is slower here for **two reasons that should not be confused**: (1) the dispatch itself, an indirect call per element which the compiler cannot inline or vectorize, and (2) **memory layout**: 10⁶ separately allocated heap objects instead of one contiguous array of doubles. Chapter 27 separates the two; the cache effect dominates. The timings are indicative, not a rigorous benchmark (Chapter 39 explains what this one omits: pinning, warm-up, variance).
 
 | | Duck typing | SFINAE | **Concepts** | Virtual |
 |---|---|---|---|---|

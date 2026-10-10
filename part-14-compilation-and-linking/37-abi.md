@@ -63,7 +63,7 @@ You cannot make the compiler guarantee ABI stability for arbitrary C++ types acr
 
 | Technique | What it protects | Cost |
 |---|---|---|
-| **C API** (`extern "C"`, opaque handles, plain structs) | Everything: C has a stable ABI on every platform | You give up overloads, templates, RAII at the boundary (wrap it back in C++ on both sides, Chapter 46) |
+| **C API** (`extern "C"`, opaque handles, plain structs) | Everything: C has a stable ABI on every platform | You give up overloads, templates, RAII at the boundary (wrap it back in C++ on both sides, Chapter 45) |
 | **pImpl** (opaque pointer) | Data layout of your classes | One heap allocation and an indirection per object; no inline members |
 | **Abstract interface + factory** | Virtual dispatch layout, if you only ever *append* virtuals | Dynamic dispatch; can never reorder or remove |
 | **`inline namespace v1 { … }`** | Lets v1 and v2 symbols coexist in the same binary | Mangled names change (that is the point) |
@@ -573,7 +573,7 @@ int main() {
 2: gamma
 ```
 
-The ABI surface is five C functions, an opaque pointer and `const char*`: nothing in it can drift when you change `std::vector<std::string>` for something else. The wrapper gives clients RAII and `string_view` without exposing a single C++ type across the boundary (this is Chapter 46's pattern).
+The ABI surface is five C functions, an opaque pointer and `const char*`: nothing in it can drift when you change `std::vector<std::string>` for something else. The wrapper gives clients RAII and `string_view` without exposing a single C++ type across the boundary (this is Chapter 45's pattern).
 
 </details>
 
@@ -586,10 +586,10 @@ The ABI surface is five C functions, an opaque pointer and `const char*`: nothin
 | **libstdc++ / glibc** | Symbol versioning, never change an existing type's layout; `GLIBCXX_3.4.x` accumulates, old binaries keep running |
 | **MSVC STL** | Stable ABI since VS 2015 (until the announced "vNext"); known inefficiencies (`std::mutex` size, `std::regex`) preserved on purpose |
 | **libc++ (LLVM)** | Stable ABI by default on Apple platforms; an opt-in `_LIBCPP_ABI_UNSTABLE` for people who rebuild everything |
-| **Qt** | Binary-compatibility promise within a major version: every public class uses the **d-pointer** (pImpl), `Q_DECLARE_PRIVATE`, reserved virtual slots, `Q_DECL_EXPORT`; adding a virtual function is forbidden in minor releases (Chapter 48) |
+| **Qt** | Binary-compatibility promise within a major version: every public class uses the **d-pointer** (pImpl), `Q_DECLARE_PRIVATE`, reserved virtual slots, `Q_DECL_EXPORT`; adding a virtual function is forbidden in minor releases (Chapter 47) |
 | **KDE Frameworks** | Written "Binary Compatibility Issues With C++" guidelines (what you may and may not change), still the best practical checklist |
 | **COM / CORBA / Windows API** | Abstract-interface-only ABIs: pure virtual classes with `QueryInterface`, never changed once published |
-| **Python / Lua / Node native modules** | `PyObject*` C ABI; C++ extensions must match the interpreter's runtime or use the stable ABI (`abi3`), see Chapter 47 |
+| **Python / Lua / Node native modules** | `PyObject*` C ABI; C++ extensions must match the interpreter's runtime or use the stable ABI (`abi3`), see Chapter 46 |
 | **Rust, Go** | Do not promise a stable ABI; `extern "C"` is the interoperability layer, as in C++ |
 | **Linux distributions** | Rebuild the world on a compiler-ABI bump; `abi-compliance-checker` in CI; “ABI break” bugs are release-blockers |
 

@@ -831,10 +831,10 @@ The loop terminates when `fn` runs to completion: the number of iterations *is* 
 | **Standard library** | `bad_alloc`, `out_of_range` (`at()`), `bad_variant_access`, `system_error`/`filesystem_error`, stream failures (opt-in), `std::stoi`; containers' strong guarantee relies on `noexcept` moves |
 | **Constructors & operators** | The *only* way for a constructor to report failure without a two-phase init |
 | **Google, LLVM, Chromium, many game studios** | **Disable exceptions** (`-fno-exceptions`) for binary size, predictability and ABI/legacy reasons; use status codes / `StatusOr` / `expected`-like types |
-| **Boost, Qt (partially)** | Qt itself does not use exceptions in its API (Chapter 48): it is exception-*neutral* (compiled so they can pass through, but signals/slots and event handlers must not let one escape, or behaviour is undefined) |
+| **Boost, Qt (partially)** | Qt itself does not use exceptions in its API (Chapter 47): it is exception-*neutral* (compiled so they can pass through, but signals/slots and event handlers must not let one escape, or behaviour is undefined) |
 | **Embedded / kernel / real-time** | Usually off: unbounded latency of a throw, table size, no allocator for the exception object |
-| **Python bindings (pybind11)** | Translate C++ exceptions into Python exceptions at the boundary (Chapter 47) |
-| **C interop** | A C++ exception must not propagate through C frames (Chapter 46): catch at the `extern "C"` boundary and return an error code |
+| **Python bindings (pybind11)** | Translate C++ exceptions into Python exceptions at the boundary (Chapter 46) |
+| **C interop** | A C++ exception must not propagate through C frames (Chapter 45): catch at the `extern "C"` boundary and return an error code |
 
 > **Opinion.** Exceptions are the right tool for **rare, truly exceptional failures that the immediate caller cannot sensibly handle**: out of memory, a missing mandatory file, a violated invariant that needs the whole operation abandoned. They are the **only** reasonable way to fail from a constructor, and with RAII they keep the success path honest and short. They are the wrong tool for **expected outcomes** (a parse failure on user input, "key not found", a socket that closed): use `optional`/`expected` (Chapter 23). Never use exceptions for ordinary control flow: at several microseconds per throw, a loop that throws on one input in ten is a performance bug and a design smell. Treat `noexcept` as a **contract**: put it on destructors, moves, `swap`, and low-level primitives, and do not sprinkle it as an optimization. If your project forbids exceptions, fine, but then own the consequences: constructors need factories, and `std::vector` can only abort on `bad_alloc`. And if you do use them: **catch by `const&`, rethrow with `throw;`, never let one cross a C boundary, a thread boundary (use `exception_ptr`), or a destructor.**
 
@@ -869,7 +869,7 @@ The loop terminates when `fn` runs to completion: the number of iterations *is* 
 4. **Strong guarantee audit.** Take `std::vector::insert` (middle), `std::map::operator[]`, `std::unordered_map::rehash`. Look up their documented guarantees (cppreference/standard) and write the fault-injection test to confirm each on your implementation.
 5. **`noexcept` or not?** For ten functions from your code base (a destructor, a getter, a move constructor, an allocating factory, a callback invoker, …), decide `noexcept`/not and justify, including what happens to the program if one *does* throw.
 6. **No-exception build.** Compile a small project with `-fno-exceptions`; list what stops compiling (`throw`, `try`, `dynamic_cast` to references, standard facilities); measure `.text` and `.eh_frame` size before/after.
-7. **Exception-translation layer.** For a C API wrapper (Chapter 46), write a macro-free helper `guard(fn)` that catches all exceptions and maps them to an `int` error code plus a thread-local message, and its inverse (code → exception).
+7. **Exception-translation layer.** For a C API wrapper (Chapter 45), write a macro-free helper `guard(fn)` that catches all exceptions and maps them to an `int` error code plus a thread-local message, and its inverse (code → exception).
 8. **Compare:** implement the same file-loading function with (a) exceptions, (b) `std::optional`, (c) error code + out-parameter, (d) `std::expected` (after Chapter 23). Count lines, branches, and microbenchmark the failure path.
 
 ---

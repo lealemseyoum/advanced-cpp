@@ -709,7 +709,7 @@ Each lambda is a distinct closure type with one `operator()`. Deriving from all 
 | **`{fmt}`** | Same idea in C++11 era; shows what compile-time validation costs in build time |
 | **Eigen** | *Expression templates*: `a + b * c` builds a type that encodes the expression and evaluates it in one loop at assignment, no temporaries |
 | **Boost.Hana / Mp11** | Type-level metaprogramming (Chapter 17) |
-| **Qt** | Mostly *avoids* templates in its core API: `QObject` signals/slots use the `moc` code generator and macros, partly for ABI reasons and compile times (Chapter 48) |
+| **Qt** | Mostly *avoids* templates in its core API: `QObject` signals/slots use the `moc` code generator and macros, partly for ABI reasons and compile times (Chapter 47) |
 
 > **Verdict on template-heavy design.** Templates are the right tool when you need *zero-overhead, type-checked genericity*: containers, algorithms, numeric kernels, wrappers. They are the wrong default for **application and plugin boundaries**: those want a small, concrete, stable interface (ABI, compile time, error messages). The pragmatic shape is a **template inside, a concrete interface outside**: the public header declares a non-template class; the `.cpp` instantiates the templates it needs.
 

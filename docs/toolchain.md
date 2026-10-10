@@ -19,8 +19,8 @@
 | `perf` | Sampling profiler, hardware counters | matches your kernel |
 | CMake + Ninja | Builds | CMake ≥ 3.28 |
 | Google Benchmark, GoogleTest | Benchmarks and tests | recent |
-| Python 3 + dev headers, pybind11 | Chapter 47 and Project 11 | 3.10+ |
-| Qt 6 | Chapter 48 | 6.5+ |
+| Python 3 + dev headers, pybind11 | Chapter 46 and Project 11 | 3.10+ |
+| Qt 6 | Chapter 47 | 6.5+ |
 
 ## 2. Installing on Ubuntu 24.04
 
@@ -219,4 +219,4 @@ cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSANITIZE=ON
 cmake --build build && ./build/exp
 ```
 
-Chapter 39 explains every line of this and then replaces it with something better.
+Keep it simple: a plain CMake build like this is all the course needs.

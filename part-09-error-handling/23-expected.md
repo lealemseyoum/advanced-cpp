@@ -771,7 +771,7 @@ The final `static_assert` is the lesson: a user-written destructor makes the typ
 | **Boost.Outcome** | `result<T, E>` / `outcome<T, E, P>` with exception interop; used in high-performance finance code |
 | **Rust** | `Result<T, E>` plus the `?` operator: the design `expected` was modelled on, and the benchmark for ergonomics |
 | **Linux kernel** | `ERR_PTR` / negative `errno` returns: errors-as-values at the C level |
-| **Qt** | `QFileDevice::error()`, `QJsonParseError`, `QIODevice` return codes / `bool`: pre-`expected` code-style; Qt 6 code increasingly uses `std::optional` and `QStringView`; `QtConcurrent`/`QFuture` use exceptions via `QException` (Chapter 48) |
+| **Qt** | `QFileDevice::error()`, `QJsonParseError`, `QIODevice` return codes / `bool`: pre-`expected` code-style; Qt 6 code increasingly uses `std::optional` and `QStringView`; `QtConcurrent`/`QFuture` use exceptions via `QException` (Chapter 47) |
 | **`<filesystem>`, `<charconv>`, `<system_error>`** | Overload pairs: a throwing version and a `std::error_code&` version; `from_chars` returns `{ptr, errc}`: a hand-rolled `expected` |
 | **Embedded / game engines** | `-fno-exceptions` with `expected`-style returns throughout |
 

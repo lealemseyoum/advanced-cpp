@@ -951,7 +951,7 @@ Changing the active member of a union **creates an object** (`[intro.object]`), 
         \_______ size() objects _______/ \_ capacity() − size() bytes of storage _/
 ```
 
-`reserve(1000)` allocates 1000 × `sizeof(T)` bytes and constructs **nothing**. `push_back` constructs one object at `end()`. `pop_back` destroys one and leaves the storage. `clear()` destroys all, keeps the storage. **Reallocation** allocates new storage, *move-constructs* objects into it, then *destroys* the old ones and frees the old storage. Everything in [Chapter 11](../part-05-standard-library/11-containers.md) and [Project 2](../part-20-projects/project-02-custom-vector.md) is this picture.
+`reserve(1000)` allocates 1000 × `sizeof(T)` bytes and constructs **nothing**. `push_back` constructs one object at `end()`. `pop_back` destroys one and leaves the storage. `clear()` destroys all, keeps the storage. **Reallocation** allocates new storage, *move-constructs* objects into it, then *destroys* the old ones and frees the old storage. Everything in [Chapter 11](../part-05-standard-library/11-containers.md) and [Project 2](../part-19-projects/project-02-custom-vector.md) is this picture.
 
 ---
 

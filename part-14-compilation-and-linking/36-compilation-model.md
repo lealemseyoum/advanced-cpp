@@ -127,7 +127,7 @@ The compiler never sees "the program". It sees **one translation unit**: a `.cpp
 | **`inline`** | Despite the name, today it means “**may be defined in more than one TU**” (identical definitions) and “a definition must be visible in every TU that odr-uses it”. Inlining as an optimisation is the compiler's own decision. Functions defined in a class body, `constexpr` functions, and (C++17) `constexpr` static data members are implicitly inline |
 | **Inline variables** (C++17) | `inline int g = 0;` in a header: one object program-wide. Replaces the `extern` + one-definition dance and the `static`-in-header copy-per-TU trap |
 | **Internal linkage** | `static` at namespace scope, anonymous namespaces, and (C++) `const`/`constexpr` namespace-scope variables without `extern`. Each TU gets its own entity: a `static` function in a header is **copied into every TU** and a `static int` in a header gives every TU **its own variable** |
-| **`extern "C"`** | Disables name mangling and uses C linkage: one symbol per name, no overloading. The boundary to C and most plug-in ABIs (Chapter 46) |
+| **`extern "C"`** | Disables name mangling and uses C linkage: one symbol per name, no overloading. The boundary to C and most plug-in ABIs (Chapter 45) |
 | **Templates** | Definitions must be visible where instantiated (hence in headers). An implicit instantiation is emitted in **every TU that uses it** as weak/COMDAT code; the linker discards duplicates. `extern template class X<int>;` suppresses implicit instantiation of non-inline members in this TU, and `template class X<int>;` in one TU forces the instantiation |
 | **Static initialisation order** | Within one TU, namespace-scope variables initialise in order of definition. **Across TUs the order is unspecified** (the “static initialisation order fiasco”). `constinit` (C++20) and constant initialisation avoid the problem; function-local statics are initialised on first use, thread-safely |
 | **No diagnostic required (NDR)** | Many ODR violations, and e.g. a missing definition of an inline function, are NDR: the standard permits compilers to accept the program. Treat NDR as “silent miscompilation” |
@@ -359,7 +359,7 @@ objdump -d --no-show-raw-insn app_shared | grep "call.*public_fn"
 | Risks | ODR across archives, bigger binaries | **ABI breaks**, symbol interposition, missing library at run time, versioning |
 | C++ specifics | template/inline copies fine | the same inline function may exist in the executable *and* the `.so`; function-local statics and singletons can be duplicated (two "singletons") unless visibility is right |
 
-> **Opinion.** For an application: link your own code **statically** (one build graph, whole-program optimisation, fewer deployment failures) and the system C/C++ runtime dynamically. For a *plug-in or ABI boundary*: shared library with a **small, hidden-by-default, C-style API** (Chapter 46). Do not ship a C++ class hierarchy across a `.so` boundary you do not control.
+> **Opinion.** For an application: link your own code **statically** (one build graph, whole-program optimisation, fewer deployment failures) and the system C/C++ runtime dynamically. For a *plug-in or ABI boundary*: shared library with a **small, hidden-by-default, C-style API** (Chapter 45). Do not ship a C++ class hierarchy across a `.so` boundary you do not control.
 
 ### Experiment 5 🧩: Static-initialisation order across TUs
 
@@ -529,8 +529,8 @@ This reads the executable it is running as. Run it on a `-c` object file instead
 | **Plug-in systems** | Hidden-by-default plus a tiny `extern "C"` entry point; two plug-ins each statically linking different versions of the same library can crash through ODR/duplicate singletons |
 | **Embedded** | `-ffunction-sections -Wl,--gc-sections`, no exceptions/RTTI, linker scripts control placement; static-initialisation order matters at boot |
 | **Games / engines** | Hot-reload DLLs/`.so` files; static objects with constructors in a reloaded library are the classic source of ODR-style crashes |
-| **Qt** | `moc` generates additional TUs; Qt libraries are shared with a long-term binary-compatibility policy; `Q_DECL_EXPORT`/`Q_DECL_IMPORT` are the export macros of Experiment 4; **"Q_OBJECT in a header, forgot to re-run moc"** produces `undefined reference to vtable for X` (Chapter 48) |
-| **Python extensions** | A `.so` loaded into a process that already contains another copy of a C++ runtime: symbol interposition and duplicate singletons (Chapter 47) |
+| **Qt** | `moc` generates additional TUs; Qt libraries are shared with a long-term binary-compatibility policy; `Q_DECL_EXPORT`/`Q_DECL_IMPORT` are the export macros of Experiment 4; **"Q_OBJECT in a header, forgot to re-run moc"** produces `undefined reference to vtable for X` (Chapter 47) |
+| **Python extensions** | A `.so` loaded into a process that already contains another copy of a C++ runtime: symbol interposition and duplicate singletons (Chapter 46) |
 
 > **Opinion.** Three rules prevent most build-model bugs. (1) **One definition, one header**: never copy a definition between files; put shared types in a header that every user includes. (2) **Everything private is `static`/anonymous-namespace, everything exported is explicit.** Default-hidden visibility turns accidental API into link errors you can see. (3) **Keep one CI job with `-flto -Wodr` and sanitizers** and one with a different link order. ODR bugs are invisible to normal testing, because the symptom changes with the build. And a heresy worth defending: for a mid-sized application, a *unity* (single-TU) release build is a legitimate way to get whole-program optimisation and fast clean builds, as long as your headers don't depend on each other's macros.
 

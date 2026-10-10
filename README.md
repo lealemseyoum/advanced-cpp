@@ -242,58 +242,52 @@ C++ moves quickly, and a feature being *in the standard* is not the same as bein
 | 37 | [ABI](part-14-compilation-and-linking/37-abi.md) | 4 |
 | 38 | [Modules](part-14-compilation-and-linking/38-modules.md) | 3 |
 
-### Part XV — Build systems
+### Part XV — Performance engineering
 
 | Ch | Title | Level |
 |:--:|---|:--:|
-| 39 | [Modern CMake](part-15-build-systems/39-modern-cmake.md) | 3 |
+| 39 | [Benchmarking](part-15-performance/39-benchmarking.md) | 4 |
+| 40 | [Profiling](part-15-performance/40-profiling.md) | 5 |
+| 41 | [Compiler optimization](part-15-performance/41-compiler-optimization.md) | 4 |
 
-### Part XVI — Performance engineering
-
-| Ch | Title | Level |
-|:--:|---|:--:|
-| 40 | [Benchmarking](part-16-performance/40-benchmarking.md) | 4 |
-| 41 | [Profiling](part-16-performance/41-profiling.md) | 5 |
-| 42 | [Compiler optimization](part-16-performance/42-compiler-optimization.md) | 4 |
-
-### Part XVII — Modern library design
+### Part XVI — Modern library design
 
 | Ch | Title | Level |
 |:--:|---|:--:|
-| 43 | [API design](part-17-library-design/43-api-design.md) | 3 |
-| 44 | [Header and library architecture](part-17-library-design/44-header-and-library-architecture.md) | 3 |
-| 45 | [Design patterns revisited](part-17-library-design/45-design-patterns-revisited.md) | 3 |
+| 42 | [API design](part-16-library-design/42-api-design.md) | 3 |
+| 43 | [Header and library architecture](part-16-library-design/43-header-and-library-architecture.md) | 3 |
+| 44 | [Design patterns revisited](part-16-library-design/44-design-patterns-revisited.md) | 3 |
 
-### Part XVIII — C and Python interoperability
-
-| Ch | Title | Level |
-|:--:|---|:--:|
-| 46 | [C compatibility](part-18-c-and-python-interop/46-c-compatibility.md) | 3 |
-| 47 | [C++ and Python](part-18-c-and-python-interop/47-python-interop.md) | 3 |
-
-### Part XIX — Qt and modern C++
+### Part XVII — C and Python interoperability
 
 | Ch | Title | Level |
 |:--:|---|:--:|
-| 48 | [Modern C++ in Qt](part-19-qt/48-modern-cpp-in-qt.md) | 3 |
+| 45 | [C compatibility](part-17-c-and-python-interop/45-c-compatibility.md) | 3 |
+| 46 | [C++ and Python](part-17-c-and-python-interop/46-python-interop.md) | 3 |
 
-### Part XX — Systems programming projects
+### Part XVIII — Qt and modern C++
+
+| Ch | Title | Level |
+|:--:|---|:--:|
+| 47 | [Modern C++ in Qt](part-18-qt/47-modern-cpp-in-qt.md) | 3 |
+
+### Part XIX — Systems programming projects
 
 | Project | Title |
 |:--:|---|
-| — | [Projects overview and grading rubric](part-20-projects/README.md) |
-| 1 | [RAII resource library](part-20-projects/project-01-raii-library.md) |
-| 2 | [Custom `Vector<T>`](part-20-projects/project-02-custom-vector.md) |
-| 3 | [`SmallVector<T, N>`](part-20-projects/project-03-small-vector.md) |
-| 4 | [Type-erased function](part-20-projects/project-04-type-erased-function.md) |
-| 5 | [Memory arena, pool and PMR resource](part-20-projects/project-05-memory-arena.md) |
-| 6 | [Thread pool](part-20-projects/project-06-thread-pool.md) |
-| 7 | [Concurrent queue](part-20-projects/project-07-concurrent-queue.md) |
-| 8 | [Coroutine `Task<T>`](part-20-projects/project-08-coroutine-task.md) |
-| 9 | [`epoll` event loop](part-20-projects/project-09-event-loop.md) |
-| 10 | [Async HTTP server](part-20-projects/project-10-async-http-server.md) |
-| 11 | [Python extension](part-20-projects/project-11-python-extension.md) |
-| ★ | [**Capstone: an asynchronous runtime library**](part-20-projects/capstone.md) |
+| — | [Projects overview and grading rubric](part-19-projects/README.md) |
+| 1 | [RAII resource library](part-19-projects/project-01-raii-library.md) |
+| 2 | [Custom `Vector<T>`](part-19-projects/project-02-custom-vector.md) |
+| 3 | [`SmallVector<T, N>`](part-19-projects/project-03-small-vector.md) |
+| 4 | [Type-erased function](part-19-projects/project-04-type-erased-function.md) |
+| 5 | [Memory arena, pool and PMR resource](part-19-projects/project-05-memory-arena.md) |
+| 6 | [Thread pool](part-19-projects/project-06-thread-pool.md) |
+| 7 | [Concurrent queue](part-19-projects/project-07-concurrent-queue.md) |
+| 8 | [Coroutine `Task<T>`](part-19-projects/project-08-coroutine-task.md) |
+| 9 | [`epoll` event loop](part-19-projects/project-09-event-loop.md) |
+| 10 | [Async HTTP server](part-19-projects/project-10-async-http-server.md) |
+| 11 | [Python extension](part-19-projects/project-11-python-extension.md) |
+| ★ | [**Capstone: an asynchronous runtime library**](part-19-projects/capstone.md) |
 
 ### Appendices
 
@@ -319,8 +313,8 @@ Roughly **30 weeks at 6–8 hours a week**. Go faster through chapters you alrea
 | 17–19 | Errors, memory, UB | 22–28 | 5 |
 | 20–23 | Concurrency and the memory model | 29–32 | 6, 7 |
 | 24–26 | Coroutines and async I/O | 33–35 | 8, 9, 10 |
-| 27–28 | Build, ABI, modules, performance | 36–42 | — |
-| 29–30 | Library design, interop, Qt, capstone | 43–48 | 11, capstone |
+| 27–28 | Build, ABI, modules, performance | 36–41 | — |
+| 29–30 | Library design, interop, Qt, capstone | 42–47 | 11, capstone |
 
 > [!TIP]
 > If you can only do one thing per chapter, do the **implementation exercise**. If you can do two, add the **assembly investigation**.
@@ -373,8 +367,8 @@ Output and assembly are tagged with the compiler version that produced them. You
 advanced-cpp/
 ├── README.md                  ← you are here
 ├── docs/                      toolchain, reading list, glossary
-├── part-01-…/ … part-19-…/    the 48 chapters, grouped by part
-├── part-20-projects/          11 projects + capstone
+├── part-01-…/ … part-18-…/    the 47 chapters, grouped by part
+├── part-19-projects/          11 projects + capstone
 └── tools/                     snippet and link checkers
 ```
 

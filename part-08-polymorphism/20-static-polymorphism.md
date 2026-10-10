@@ -641,10 +641,10 @@ One definition covers const and non-const `Ring`, with no template parameter on 
 | **Boost.Iterator / Boost.Operators** | CRTP `iterator_facade`, `totally_ordered<T>` generate boilerplate |
 | **LLVM** | CRTP visitors (`InstVisitor<Derived>`, `RecursiveASTVisitor<Derived>`): the AST walk is statically dispatched with user overrides picked up by name |
 | **Linux kernel / embedded C++** | Policy templates replacing function-pointer tables |
-| **Qt** | `QObject` uses *virtual* functions and the meta-object system (dynamic); but `QList`, `QMap`, `QtConcurrent`, and `QScopedPointer<T, Cleanup>` use static policies (Chapter 48) |
+| **Qt** | `QObject` uses *virtual* functions and the meta-object system (dynamic); but `QList`, `QMap`, `QtConcurrent`, and `QScopedPointer<T, Cleanup>` use static policies (Chapter 47) |
 | **fmt / `std::format`** | `formatter<T>` specialization: static dispatch on type, with a type-erased `basic_format_arg` for the runtime part |
 
-> **Opinion.** Default to **templates constrained by concepts** for algorithms and containers. For *mixins*, in C++23 use deducing `this`; in C++20 and earlier use CRTP with a protected constructor. Do not use CRTP "to avoid virtual calls" in cold code: you pay N instantiations and worse error messages for no measurable gain. Do use it in hot inner loops over homogeneous data, where inlining across the call matters. And never build a **public library API** whose template parameters leak into every client's binary unless you accept the ABI and compile-time consequences (Chapters 37, 44).
+> **Opinion.** Default to **templates constrained by concepts** for algorithms and containers. For *mixins*, in C++23 use deducing `this`; in C++20 and earlier use CRTP with a protected constructor. Do not use CRTP "to avoid virtual calls" in cold code: you pay N instantiations and worse error messages for no measurable gain. Do use it in hot inner loops over homogeneous data, where inlining across the call matters. And never build a **public library API** whose template parameters leak into every client's binary unless you accept the ABI and compile-time consequences (Chapters 37, 43).
 
 ---
 

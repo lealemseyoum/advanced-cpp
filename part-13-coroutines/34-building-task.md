@@ -904,7 +904,7 @@ The job ticks at 40 ms and 80 ms; the stop request arrives at 100 ms; the pendin
 | **folly::coro** | `Task<T>` with executors, cancellation tokens, and **scheduler affinity** (each `co_await` resumes on the awaiter's executor), plus a frame pool |
 | **Boost.Asio `awaitable<T>`** | Tied to an `io_context`/executor; `co_spawn`, `use_awaitable`; completion tokens turn any callback API into an awaitable |
 | **libunifex / stdexec** | The senders/receivers world; `task` is the coroutine adapter on top (the C++26 direction) |
-| **Qt: QCoro** | `QCoro::Task<T>` over the Qt event loop; `co_await` a `QNetworkReply`, signal, `QTimer`; resumes on the Qt thread because the awaiter hooks the signal (Chapter 48) |
+| **Qt: QCoro** | `QCoro::Task<T>` over the Qt event loop; `co_await` a `QNetworkReply`, signal, `QTimer`; resumes on the Qt thread because the awaiter hooks the signal (Chapter 47) |
 | **Seastar** | Futures first, coroutines layered on; shard-per-core so no atomics on task state |
 | **Rust `async fn`** | The same stackless-state-machine idea, but the *poll* model (pull) rather than C++'s resume model (push); `Future::poll` returns `Pending` and a `Waker` re-schedules |
 

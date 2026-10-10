@@ -568,7 +568,7 @@ heap_free():
 	ret
 ```
 
-No call to `operator new`. This is one of the exceptions to as-if in 5.2: the standard explicitly permits eliding allocations whose storage is unobservable. Don't *rely* on it (it is an optimization, not a guarantee), but remember it when you read benchmark results ([Chapter 40](../part-16-performance/40-benchmarking.md)): the compiler may have deleted the work you are trying to time.
+No call to `operator new`. This is one of the exceptions to as-if in 5.2: the standard explicitly permits eliding allocations whose storage is unobservable. Don't *rely* on it (it is an optimization, not a guarantee), but remember it when you read benchmark results ([Chapter 39](../part-15-performance/39-benchmarking.md)): the compiler may have deleted the work you are trying to time.
 
 ---
 

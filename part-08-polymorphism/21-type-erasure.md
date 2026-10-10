@@ -781,7 +781,7 @@ The invoker is at a fixed offset in the object, so the call is *one load and one
 1. **Complete `Function`**: add a *copyable* version (a `clone` slot in the table), `target<T>()`, `swap`, comparison with `nullptr`, and `noexcept`/`const` signature support (`Function<int(int) const>`).
 2. **Make `Any` heterogeneous-container friendly**: add `std::any_cast`-style free functions, `emplace<T>(args...)`, `make_any<T>`, and the in-place constructor `Any(std::in_place_type<T>, args...)`. Verify no extra copies with an instrumented type.
 3. **Generic erased interface**: implement a mini `AnyIterator<T>` (input iterator over `T` hiding the container type) and use it to implement a non-template `void print_all(AnyRange<int>)`. Measure the per-element cost versus a template.
-4. **A `Signal<R(Args...)>`**: a list of `Function`s with connect/disconnect handles, safe to disconnect during emission. Compare with Qt's signals (Chapter 48) on features: thread safety, auto-disconnection when the receiver dies, queued connections.
+4. **A `Signal<R(Args...)>`**: a list of `Function`s with connect/disconnect handles, safe to disconnect during emission. Compare with Qt's signals (Chapter 47) on features: thread safety, auto-disconnection when the receiver dies, queued connections.
 5. **`unique_function` with a custom allocator**: take an `std::pmr::memory_resource*` for the heap fallback (Chapter 26) so that the callbacks of one subsystem come from an arena.
 6. **Compare four implementations of a "Shape" erased type**: (a) concept/model with `unique_ptr`; (b) with SBO of 32 bytes; (c) manual vtable (like `Function`); (d) `std::variant`. For small shapes and 10⁶ elements, report `sizeof`, allocation count, build time, and traversal time.
 
@@ -823,7 +823,7 @@ and constrain the converting constructor with `std::is_copy_constructible_v<D>` 
 | **`std::thread`, `std::async`, `std::packaged_task`** | Erased callable and its arguments |
 | **`std::format`** | `basic_format_arg` is a type-erased handle to an argument (`void*` + formatter function pointer), which is why `vformat` is a *non-template* function: one compiled copy, small code |
 | **Ranges** | `std::generator`/`std::ranges::any_view` (proposed) to hide pipeline types across API boundaries (Chapter 14) |
-| **Qt** | `QVariant` (erased value with a meta-type registry), `QMetaObject::Connection` (erased callable for functor connections), `QFuture`/`QPromise`, `QAnyStringView` (non-owning, erases the string encoding) (Chapter 48) |
+| **Qt** | `QVariant` (erased value with a meta-type registry), `QMetaObject::Connection` (erased callable for functor connections), `QFuture`/`QPromise`, `QAnyStringView` (non-owning, erases the string encoding) (Chapter 47) |
 | **LLVM** | `llvm::function_ref` (the origin of `std::function_ref`), `llvm::unique_function`, `PassConcept`/`PassModel<T>` (the concept/model idiom, literally named so) |
 | **Abseil** | `absl::AnyInvocable` (the move-only function), `absl::FunctionRef` |
 | **Folly** | `folly::Function`, `folly::poly` |
@@ -849,7 +849,7 @@ and constrain the converting constructor with `std::is_copy_constructible_v<D>` 
 | Throwing or user-provided move constructor in the stored type | Wrapper cannot be `noexcept`-movable (vector reallocation copies); `std::function` refuses inline storage (it requires trivially copyable) | Make moves `noexcept`; prefer trivially copyable captures for hot callbacks |
 | Aliasing/UB with raw buffers (no `launder`, wrong alignment) | Works on one compiler, breaks at `-O2` or on ARM | `alignas`, placement `new`, `std::launder` |
 | Recursive erasure: a `Function` that stores a lambda capturing itself | Cycle / destructor recursion | Weak reference or explicit lifetime management |
-| ABI: exporting `std::function`/`std::any` in a library interface compiled with different standard-library versions | Layout mismatch → crashes | Version-controlled interface, or a C function pointer + `void*` at the boundary (Chapter 46) |
+| ABI: exporting `std::function`/`std::any` in a library interface compiled with different standard-library versions | Layout mismatch → crashes | Version-controlled interface, or a C function pointer + `void*` at the boundary (Chapter 45) |
 | One `Concept` that grows to 40 virtual functions | Every model implements everything; compile time and code size balloon | Split by capability; use `proxy`-style facades; templates for the hot parts |
 
 ---

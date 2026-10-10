@@ -169,7 +169,7 @@ A line two cores write in alternation ping-pongs M → I → M across the interc
 
 ## 7. Experiments
 
-All timing experiments here report what *this sandbox* measured (2 cores, 32 KiB L1D, 1 MiB L2, 33 MiB L3). The **shape** of each result is the lesson; absolute numbers will differ on your machine. Run them on yours, with the CPU governor set to `performance` and turbo/frequency noise minimised where possible (Chapter 40).
+All timing experiments here report what *this sandbox* measured (2 cores, 32 KiB L1D, 1 MiB L2, 33 MiB L3). The **shape** of each result is the lesson; absolute numbers will differ on your machine. Run them on yours, with the CPU governor set to `performance` and turbo/frequency noise minimised where possible (Chapter 39).
 
 ### Experiment 1 🔧: Measure the memory hierarchy: pointer chasing
 
@@ -646,8 +646,8 @@ id=3 x=3.5
 | **Linux kernel** | `____cacheline_aligned_in_smp`, per-CPU variables, `struct page` packing, RCU to avoid shared writes |
 | **Folly / Abseil** | `F14` and Swiss tables: metadata bytes grouped for SIMD probing, probes within a cache line or two. `absl::flat_hash_map` beats `std::unordered_map` by 2–5× largely on locality |
 | **LMAX Disruptor, SPSC rings** | Padded head/tail indices to avoid false sharing; single-writer principle (Chapters 31–32) |
-| **Qt** | `QVector`/`QList` are contiguous; implicit sharing copies on write; QGraphicsView and model/view code suffer if per-item `QObject`s (≈ 100+ bytes + heap) are used for millions of rows: the usual fix is a model backed by a contiguous `std::vector` of PODs and `QAbstractItemModel` that indexes it (Chapter 48) |
-| **Python + NumPy** | NumPy arrays are SoA/contiguous by design — it is *the* reason NumPy loops over arrays beat lists of Python objects by 10–100×; understanding strides is what makes `np.ascontiguousarray` and views make sense (Chapter 47) |
+| **Qt** | `QVector`/`QList` are contiguous; implicit sharing copies on write; QGraphicsView and model/view code suffer if per-item `QObject`s (≈ 100+ bytes + heap) are used for millions of rows: the usual fix is a model backed by a contiguous `std::vector` of PODs and `QAbstractItemModel` that indexes it (Chapter 47) |
+| **Python + NumPy** | NumPy arrays are SoA/contiguous by design — it is *the* reason NumPy loops over arrays beat lists of Python objects by 10–100×; understanding strides is what makes `np.ascontiguousarray` and views make sense (Chapter 46) |
 | **Compilers** | Arena-allocated, contiguous IR (Zig, Carbon use index-based "struct-of-arrays" ASTs; LLVM's `SmallVector`, `DenseMap`) |
 
 > **Opinion.** Data-oriented design is **not** an aesthetic and not a reason to destroy readable code everywhere. The order of operations is: **measure → find the hot loop → compute the bytes it moves per element → fix the layout of that data only.** Doing this *everywhere* gives you unmaintainable code with no measurable benefit; ignoring it where it matters gives you 5–50× slowdowns that no micro-optimisation can recover. Prefer, in order: smaller types (`uint32_t` ids instead of pointers, `float` instead of `double` when sufficient); contiguous containers (`vector`, `flat_map`, `inplace_vector`) over node-based ones; index/handle-based graphs over pointer graphs; SoA for bulk numeric loops; per-thread data and padding for write-shared state. Treat `[[likely]]`, `__builtin_prefetch` and manual SIMD as scalpels used after profiling, not defaults. And remember **false sharing is a performance bug, not a correctness bug**: if the code is racy, padding does not fix it.
@@ -664,7 +664,7 @@ id=3 x=3.5
 | Atomic counters/flags of different threads in one line | Scaling collapses with thread count | `alignas(64)`, per-thread accumulators merged at the end, `perf c2c` |
 | "Padding" a non-atomic shared variable | Still a data race (UB) | Use atomics or synchronisation; padding is only the performance fix |
 | Power-of-two row/stride sizes | Cache-set conflicts: unexpectedly slow with e.g. 1024 or 4096 columns | Pad rows by a line; use `mdspan` with explicit strides |
-| Microbenchmark with a working set that fits in L1/L2 | Layout "doesn't matter" locally but does in production | Benchmark with realistic sizes and cold caches (Chapter 40) |
+| Microbenchmark with a working set that fits in L1/L2 | Layout "doesn't matter" locally but does in production | Benchmark with realistic sizes and cold caches (Chapter 39) |
 | SoA applied to data accessed one whole element at a time | Slower than AoS (more lines per element) | Match layout to access pattern (Experiment 3, row 3) |
 | Relying on `hardware_destructive_interference_size` across a binary boundary | GCC warns `-Winterference-size`; ABI differs per `-mtune` | Hard-code a constant in public headers (64, or 128 on ARM/POWER targets) |
 | Manual prefetch with a wrong distance | No gain or regression | Measure with counters; treat as per-CPU tuning |

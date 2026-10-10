@@ -815,7 +815,7 @@ streamable:     int=true Opaque=false
 | **`std::thread`, `std::bind`, `make_pair`** | `decay_t` of each argument = the stored type |
 | **`std::chrono`** | `common_type<duration<R1,P1>, duration<R2,P2>>` finds the finest-grained common duration |
 | **`std::format`** | Detects `formatter<T>` specializations to know whether `T` is formattable |
-| **Qt** | `QTypeInfo<T>` is Qt's own trait set (`Q_PRIMITIVE_TYPE`, `Q_MOVABLE_TYPE`) that tells `QList`/`QVector` whether they can use `memmove` for relocation; the pre-`<type_traits>` design of the same idea ([Chapter 48](../part-19-qt/48-modern-cpp-in-qt.md)) |
+| **Qt** | `QTypeInfo<T>` is Qt's own trait set (`Q_PRIMITIVE_TYPE`, `Q_MOVABLE_TYPE`) that tells `QList`/`QVector` whether they can use `memmove` for relocation; the pre-`<type_traits>` design of the same idea ([Chapter 47](../part-18-qt/47-modern-cpp-in-qt.md)) |
 
 ---
 
@@ -847,7 +847,7 @@ streamable:     int=true Opaque=false
 5. **Rewrite three.** Take three `enable_if` uses from any codebase (or from your own earlier code) and rewrite each as a concept. Compare the error message you get when each fails.
 6. **Padding detector.** Write `has_padding<T>` as `!has_unique_object_representations_v<T> && is_trivially_copyable_v<T>` and apply it to `std::pair<int, char>`, `std::array<char, 7>`, `struct {char a; char b;}`; compare with `sizeof` arithmetic from Chapter 2. Where would hashing the raw bytes be a bug?
 7. **A `to_string` dispatcher.** `to_str(x)` must choose, **in this order**: `x.to_string()`, `std::to_string(x)` for arithmetic types, `std::string(x)` for string-like, else a `static_assert` with a message listing the supported options. Write it with detection + `if constexpr`; then with concepts; then compare compile errors for an unsupported type.
-8. **Trivial relocation experiment.** Benchmark growing a `std::vector<Point>` vs `std::vector<std::string>` by `push_back` of 10⁷ elements; then replace the elements' type with a wrapper that has a non-trivial but semantically trivial copy constructor. How much of the cost is "relocation by `memcpy` lost"? (Use `perf stat`; see Chapter 41.)
+8. **Trivial relocation experiment.** Benchmark growing a `std::vector<Point>` vs `std::vector<std::string>` by `push_back` of 10⁷ elements; then replace the elements' type with a wrapper that has a non-trivial but semantically trivial copy constructor. How much of the cost is "relocation by `memcpy` lost"? (Use `perf stat`; see Chapter 40.)
 
 ---
 

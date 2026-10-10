@@ -3,7 +3,7 @@
 > **Part XIV · Compilation and Linking** &nbsp;|&nbsp; **Level 3** (implementation) &nbsp;|&nbsp; **≈ 8 hours**
 > **Prerequisites:** [Chapter 36 (compilation model)](36-compilation-model.md), [Chapter 37 (ABI)](37-abi.md) &nbsp;|&nbsp; **Standards:** named modules, partitions, header units, GMF/private fragment: C++20 ⚖️; `import std;` and `import std.compat;`: C++23 ⚖️ (🟡 **not available in GCC 14.2 or Clang 18**: needs GCC 15 / Clang 18+ with libc++'s module or MSVC) &nbsp;|&nbsp; **Tools:** `g++-14` (`-fmodules-ts`), `clang++-18` (`--precompile`), CMake 3.28 + Ninja 1.11, `clang-scan-deps`
 
-[← Previous: Chapter 37](37-abi.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Chapter 39 — Modern CMake →](../part-15-build-systems/39-modern-cmake.md)
+[← Previous: Chapter 37](37-abi.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Chapter 39 — Benchmarking →](../part-15-performance/39-benchmarking.md)
 
 ---
 
@@ -579,4 +579,4 @@ You maintain a 300-file C++20 application (CMake, GCC and Clang in CI). Produce 
 
 ---
 
-[← Previous: Chapter 37](37-abi.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Chapter 39 — Modern CMake →](../part-15-build-systems/39-modern-cmake.md)
+[← Previous: Chapter 37](37-abi.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Chapter 39 — Benchmarking →](../part-15-performance/39-benchmarking.md)

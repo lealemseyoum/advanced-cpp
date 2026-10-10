@@ -698,7 +698,7 @@ via_member(std::vector<int, std::allocator<int> >&):
 	ret
 ```
 
-If the two bodies are identical (they are: load two pointers, subtract, shift), the CPO costs nothing at run time. At `-O0` the CPO *is* a real call chain (`_Begin::operator()` → `begin()`); this is one reason debug builds of ranges code are slow, and why Chapter 42 recommends `-Og` for debugging templates-heavy code.
+If the two bodies are identical (they are: load two pointers, subtract, shift), the CPO costs nothing at run time. At `-O0` the CPO *is* a real call chain (`_Begin::operator()` → `begin()`); this is one reason debug builds of ranges code are slow, and why Chapter 41 recommends `-Og` for debugging templates-heavy code.
 
 ### Symbols: where did my customization get called from?
 

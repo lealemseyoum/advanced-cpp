@@ -1041,7 +1041,7 @@ Caveats the sketch exposes: the timed-out operation is *abandoned, not cancelled
 | **Boost.Asio / Beast** | `io_context` reactor (or `io_uring` backend); `awaitable<T>` coroutines; completion tokens | The mainstream C++ answer; our `net.hpp` is a tiny Asio |
 | **libuv (Node.js)** | `epoll` event loop + thread pool for file I/O and DNS | Why Node offloads blocking work: the cardinal rule of Experiment 4 |
 | **Tokio (Rust)** | `epoll` via `mio`, work-stealing multi-threaded executor of `Future`s | Same idea, poll-based and multi-threaded |
-| **Qt** | The Qt event loop is a `select`/`poll`/`epoll` reactor over `QSocketNotifier`; `QTcpSocket` emits `readyRead`; QCoro adapts it to `co_await` | Chapter 48 |
+| **Qt** | The Qt event loop is a `select`/`poll`/`epoll` reactor over `QSocketNotifier`; `QTcpSocket` emits `readyRead`; QCoro adapts it to `co_await` | Chapter 47 |
 | **Redis** | Single-threaded `epoll` event loop (+ I/O threads since 6.0) | A famous demonstration that one thread can serve 100k+ requests/s when handlers never block |
 
 > **Opinion.** For **application** code, do not build this; use Asio (or the framework your platform ships) and spend your time on the protocol. Build your own once, as you just did, so you can *read* Asio's source, debug a stuck connection with `strace`, and know what a reactor does and costs. For **very high connection counts or low latency**, reach for a mature library (Seastar, Asio with `io_uring`) before writing syscalls yourself. In production the details you did not implement matter most: backpressure, timeouts on every phase, connection limits, TLS, graceful shutdown, `SO_REUSEPORT` across cores, HTTP request smuggling defences, and observability. Also note what coroutines buy here: *readability and safety of control flow*, not speed. The speed comes from `epoll` and from the number of syscalls you avoid.
@@ -1085,7 +1085,7 @@ Caveats the sketch exposes: the timed-out operation is *abandoned, not cancelled
 
 ## 13. Challenge: the capstone runtime
 
-This chapter is the seed of the course capstone (`part-20-projects/capstone.md`). Extend it into a **small asynchronous runtime library**:
+This chapter is the seed of the course capstone (`part-19-projects/capstone.md`). Extend it into a **small asynchronous runtime library**:
 
 - **Event loop** with timers (`timerfd`), cancellation (`stop_token` through awaiters) and an `eventfd` to wake it from other threads
 - **Thread pool** scheduler plus `resume_on(executor)` awaiter, so handlers can offload blocking work and return to their home loop

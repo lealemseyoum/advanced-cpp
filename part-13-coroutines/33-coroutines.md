@@ -751,7 +751,7 @@ C++23 ships `std::generator<T>` (header `<generator>`, libstdc++ 14 ✅) with th
 | **Game engines (Unreal, Unity C#; custom C++ engines)** | Script-style coroutines that wait for frames or timers: `co_await wait_seconds(2)` |
 | **Servers (Seastar, Meta's folly, Microsoft's cpp/WinRT)** | One coroutine per request; all concurrency from a handful of threads; frames pooled |
 | **Parsers and state machines** | Network protocols written as straight-line reads: `auto hdr = co_await read(4);` |
-| **Qt** | `QCoro` library adapts `QFuture`, `QNetworkReply`, signals to `co_await`; Qt 6.x itself ships `QFuture` continuations but has no coroutine core yet (Chapter 48) |
+| **Qt** | `QCoro` library adapts `QFuture`, `QNetworkReply`, signals to `co_await`; Qt 6.x itself ships `QFuture` continuations but has no coroutine core yet (Chapter 47) |
 
 > **Opinion.** Treat `std::coroutine_handle` the way you treat `new`: a mechanism to wrap once, in a small audited class, and then never touch in application code. Application code should see `Task<T>`, `Generator<T>` and `co_await some_operation()`. Writing raw promise types ad hoc in a codebase produces the same class of bugs as raw `new`/`delete` did. Also: do not use coroutines where a plain function or a range pipeline would do, as the frame and the lifetime rules are real costs. They earn their place when the code **waits** (I/O, timers, other coroutines) or when you need a pull-style generator.
 

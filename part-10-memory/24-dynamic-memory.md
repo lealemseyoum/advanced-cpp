@@ -619,7 +619,7 @@ The pitfall: a 16-byte header preserves the 16-byte alignment guarantee; an 8-by
 | **tcmalloc / jemalloc / mimalloc** | Preloaded, or linked, they replace `malloc`; some also replace `operator new` to use sized deallocation (a reason sized `delete` exists). Typical wins: 10–30 % on allocation-heavy servers. |
 | **Game engines, audio code** | Per-frame arenas and pools; `operator new` overloads taking an arena (`new (frameArena) Particle`) with matching placement deletes. |
 | **LLVM** | Bump-pointer `BumpPtrAllocator` and `new (Allocator) Node` everywhere; objects are never individually deleted. |
-| **Qt** | `QObject` allocation is plain `new`; ownership is by parent (Chapter 48); `QArrayData` uses `malloc` with its own header for implicit sharing; Qt overloads `operator new` only in a few internal classes. |
+| **Qt** | `QObject` allocation is plain `new`; ownership is by parent (Chapter 47); `QArrayData` uses `malloc` with its own header for implicit sharing; Qt overloads `operator new` only in a few internal classes. |
 | **Embedded** | Replace `operator new` with a fixed-pool allocator or `= delete` it to forbid the heap entirely (a link-time guarantee of "no dynamic allocation"). |
 | **Debugging** | ASan/LSan/Valgrind interpose on `malloc` *and* `operator new` to track every block; this is why replacing `operator new` in a program can silently disable some of their checks. |
 

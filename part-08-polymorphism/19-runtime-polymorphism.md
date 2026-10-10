@@ -673,7 +673,7 @@ This is the C idiom (`FILE`, `file_operations`, GObject) and the exact structure
 
 | Where | How virtual dispatch is used |
 |---|---|
-| **Qt** | `QObject` and `QWidget`: `event()`, `paintEvent()`, `QAbstractItemModel::data()`; the *moc-generated* `metaObject()`/`qt_metacall()` are virtual (Chapter 48) |
+| **Qt** | `QObject` and `QWidget`: `event()`, `paintEvent()`, `QAbstractItemModel::data()`; the *moc-generated* `metaObject()`/`qt_metacall()` are virtual (Chapter 47) |
 | **LLVM / Clang** | Deliberately avoids virtual functions in AST node hierarchies: uses its own **RTTI-free** `isa<>`/`dyn_cast<>` with a `Kind` enum, so a node's class check is a compare, not a `dynamic_cast` |
 | **Linux kernel (C)** | The same pattern hand-written: `struct file_operations` |
 | **Game engines** | Entity/component with virtual `update()`; moved to data-oriented (Chapter 27) when profiles show cost |

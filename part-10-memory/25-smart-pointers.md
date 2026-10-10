@@ -666,7 +666,7 @@ The two `static_assert`s are the point: `[[no_unique_address]]` (C++20) does wha
 | **Everywhere sensible** | `std::unique_ptr` for owned heap objects, pimpl (`unique_ptr<Impl>`), polymorphic members, factories returning `unique_ptr<Base>` (convertible to `shared_ptr` if a caller needs sharing) |
 | **LLVM** | Almost no `shared_ptr`. `unique_ptr`, arenas, intrusive reference counts (`IntrusiveRefCntPtr`: count lives *in* the object, 8-byte pointer, no control block) |
 | **Chromium** | `std::unique_ptr` and `scoped_refptr` (intrusive, non-atomic for single-sequence classes) |
-| **Qt** | Parent–child ownership (`QObject` deletes its children) instead of smart pointers for GUI trees; `QSharedPointer`/`QScopedPointer` exist; **implicit sharing** (`QString`, `QList`) is copy-on-write reference counting hidden inside value types (Chapter 48). `QPointer` is a `weak_ptr`-like guard for `QObject`s. |
+| **Qt** | Parent–child ownership (`QObject` deletes its children) instead of smart pointers for GUI trees; `QSharedPointer`/`QScopedPointer` exist; **implicit sharing** (`QString`, `QList`) is copy-on-write reference counting hidden inside value types (Chapter 47). `QPointer` is a `weak_ptr`-like guard for `QObject`s. |
 | **Async callbacks** | `shared_ptr` captured in a lambda (or `weak_ptr` with `lock()`) to keep a session alive until its handler runs — one of the few *legitimate* spots for shared ownership |
 | **Caches, graphs, observer lists** | `shared_ptr` for values, `weak_ptr` for registrations; or integer handles into a table |
 | **C interop** | `unique_ptr<T, Deleter>` around `FILE*`, `sqlite3*`, `SSL*`, `GLuint`-like handles; `out_ptr` for the creator function |

@@ -57,7 +57,7 @@ Everything programmers want to automate is a variation of the same question: *gi
 | Period | Approach | Representative |
 |---|---|---|
 | 1990s | Macros; hand-written lists | MFC `DECLARE_MESSAGE_MAP`, COM IDL |
-| 1990s–today | **External code generators**: parse headers or an IDL, emit C++ | Qt **moc** (Chapter 48), protobuf, flatbuffers, SWIG, Cap'n Proto |
+| 1990s–today | **External code generators**: parse headers or an IDL, emit C++ | Qt **moc** (Chapter 47), protobuf, flatbuffers, SWIG, Cap'n Proto |
 | 2000s | **Intrusive registration macros** | `BOOST_FUSION_ADAPT_STRUCT`, `BOOST_DESCRIBE_STRUCT`, `BOOST_HANA_DEFINE_STRUCT` |
 | 2000s | Run-time reflection via RTTI/`typeid` | *Only* the type's name and `dynamic_cast`; no members |
 | 2010s | **Compiler-name tricks** (🔧): parse `__PRETTY_FUNCTION__` / `__FUNCSIG__` | `magic_enum`, `nameof`, `ctti` |
@@ -554,7 +554,7 @@ struct Point { int x; double y; };
 // describe(Point{1, 2.5})  ==  "Point{x=1, y=2.5}"
 ```
 
-This is the use case that justifies the whole feature: Experiment 3 could not print member *names*; here names and values come from the declaration itself. The same loop can drive JSON/binary serialization, `operator==`, hashing, ORM column mapping, or the registration code that pybind11 users write by hand (Chapter 47). The same loop can also drive a CLI parser (one option per member, with annotations carrying help text); I have deliberately **not** shown annotation syntax because I could not verify it.
+This is the use case that justifies the whole feature: Experiment 3 could not print member *names*; here names and values come from the declaration itself. The same loop can drive JSON/binary serialization, `operator==`, hashing, ORM column mapping, or the registration code that pybind11 users write by hand (Chapter 46). The same loop can also drive a CLI parser (one option per member, with annotations carrying help text); I have deliberately **not** shown annotation syntax because I could not verify it.
 
 ### Experiment 7 ✅: What an external generator looks like (moc in miniature)
 
@@ -584,7 +584,7 @@ constexpr const char* to_string(Color v) { switch (v) {
 } return "?"; }
 ```
 
-This is, line for line, what Qt's moc and every protobuf compiler do, at larger scale: **a second program reads a description and writes C++**. CMake integration is `add_custom_command(OUTPUT … COMMAND … DEPENDS …)` (Chapter 39). The generator can be as smart as you like, **and** it runs on every compiler today. Its drawback is not power but friction: a second language, a second place to debug, a build step, and generated code that nobody reads.
+This is, line for line, what Qt's moc and every protobuf compiler do, at larger scale: **a second program reads a description and writes C++**. CMake integration is `add_custom_command(OUTPUT … COMMAND … DEPENDS …)`. The generator can be as smart as you like, **and** it runs on every compiler today. Its drawback is not power but friction: a second language, a second place to debug, a build step, and generated code that nobody reads.
 
 ---
 
@@ -627,10 +627,10 @@ Experiment 2's cost grows linearly with the probed range per enum type; measure 
 
 | Where | Today | With C++26 reflection |
 |---|---|---|
-| **Qt moc** | Separate preprocessor generates `moc_*.cpp` for signals, slots, properties (Chapter 48) | Much of what moc extracts could be done with reflection + annotations; Qt has not committed to replacing moc; the build and tooling story is larger than the feature gap |
+| **Qt moc** | Separate preprocessor generates `moc_*.cpp` for signals, slots, properties (Chapter 47) | Much of what moc extracts could be done with reflection + annotations; Qt has not committed to replacing moc; the build and tooling story is larger than the feature gap |
 | **protobuf / flatbuffers / Cap'n Proto** | IDL → code generator | Their *schema* is not C++, so they keep generators; reflection helps **C++-native** schemas |
 | **nlohmann::json, cereal, Boost.Serialization** | Macros (`NLOHMANN_DEFINE_TYPE_INTRUSIVE`) or per-type `serialize` functions | Zero-boilerplate `to_json` for any aggregate/class |
-| **pybind11 / nanobind / sol2** | Hand-written binding lists | Auto-generated bindings from class declarations (Chapter 47) |
+| **pybind11 / nanobind / sol2** | Hand-written binding lists | Auto-generated bindings from class declarations (Chapter 46) |
 | **spdlog / fmt** | Per-type `formatter` | `formatter` for any aggregate, member names included |
 | **gtest / Catch2** | `operator<<` or printers for failure messages | Automatic printing of arbitrary structs |
 | **Game engines** | Custom code generators (Unreal's UHT, Unity-like editors), reflection macros | Property systems and editors from plain structs |

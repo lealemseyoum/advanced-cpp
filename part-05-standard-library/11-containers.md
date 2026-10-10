@@ -496,7 +496,7 @@ full traversal, sum of 2000000 ints  (checksums 1999999000000 1999999000000 1999
   unordered_map                    40.9 ms
 ```
 
-*How to read this.* The sequential traversal of a `vector` is **memory-bandwidth bound**: the prefetcher streams the cache lines. A scattered `list` pays a likely cache miss per element: two orders of magnitude slower in this run (over 200×), with identical Big-O. `unordered_map` is O(1) per lookup but one random cache miss per node (plus the bucket), and **a sorted `vector` with binary search is often competitive with, or faster than, `map` up to millions of keys** because its first probes stay in cache. These are indicative single runs on a shared machine; Chapter 40 explains how to benchmark rigorously. The ranking, not the exact figures, is the lesson.
+*How to read this.* The sequential traversal of a `vector` is **memory-bandwidth bound**: the prefetcher streams the cache lines. A scattered `list` pays a likely cache miss per element: two orders of magnitude slower in this run (over 200×), with identical Big-O. `unordered_map` is O(1) per lookup but one random cache miss per node (plus the bucket), and **a sorted `vector` with binary search is often competitive with, or faster than, `map` up to millions of keys** because its first probes stay in cache. These are indicative single runs on a shared machine; Chapter 39 explains how to benchmark rigorously. The ranking, not the exact figures, is the lesson.
 
 > **Verdict.** Default to `vector`. Use a sorted `vector` (or C++23 `flat_map`) for read-mostly ordered lookup. Use `unordered_map` when you need many lookups and don't need ordering (and call `reserve`). Use `map` when you need *ordered iteration with frequent inserts and erases and stable references*. Use `list` almost never: only for splice-heavy algorithms and intrusive structures where you control allocation (Chapter 26). `deque` when you need stable references with push at both ends (a queue of large objects).
 
@@ -661,7 +661,7 @@ So the cost model is: ~1 ns on the fast path, a microsecond-scale reallocation a
 ```bash
 valgrind --tool=massif ./a.out && ms_print massif.out.*      # heap profile over time: the sawtooth of vector growth
 ltrace -e malloc+free ./a.out 2>&1 | head                    # allocation count without recompiling
-perf stat -e cache-misses,cache-references,dTLB-load-misses ./a.out   # needs real PMU access (Chapter 41)
+perf stat -e cache-misses,cache-references,dTLB-load-misses ./a.out   # needs real PMU access (Chapter 40)
 ```
 
 ---
@@ -686,7 +686,7 @@ Implement **`FlatMap<K, V>`**, a sorted-`vector` associative container, and comp
 | **Linux kernel** (C, not C++) | Intrusive lists and red-black trees: the node is *inside* the object. No allocation, no separate node. The C++ equivalent is Boost.Intrusive or hand-rolled (Chapter 26) |
 | **LLVM** | `SmallVector<T, N>` (Project 3), `DenseMap` (open addressing), `StringMap`: LLVM avoids `std::map`/`std::unordered_map` almost entirely because they were measured slow |
 | **Abseil / Folly** | `flat_hash_map` (SwissTable, open addressing, SIMD group probing): typically 2–3× faster than `std::unordered_map` and 2× less memory; the standard's *interface* (stable references) rules this out for `std::` |
-| **Qt** | `QList` (Qt 6: contiguous like `vector`), `QMap` (a sorted tree), `QHash` (open-addressing-like in Qt 6): copy-on-write; Chapter 48 compares |
+| **Qt** | `QList` (Qt 6: contiguous like `vector`), `QMap` (a sorted tree), `QHash` (open-addressing-like in Qt 6): copy-on-write; Chapter 47 compares |
 | **Games / HPC** | SoA arrays in `vector` (Chapter 27), `mdspan` for grids |
 
 > **Opinion on `std::unordered_map`.** Its interface mandates node-based buckets, so it can never be as fast as modern open-addressing tables, and the standard cannot change that without breaking users who rely on stable references. If a profile shows hash-table lookup is hot, replace it with `absl::flat_hash_map`, `boost::unordered_flat_map` or `ankerl::unordered_dense`: not a micro-optimization, a structural one. Otherwise, keep it.
