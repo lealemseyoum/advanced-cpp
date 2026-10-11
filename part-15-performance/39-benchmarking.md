@@ -180,7 +180,7 @@ The empty `asm` emits no instruction. `"+r,m"(v)` means "this block reads and wr
 
 ## 7. Experiments
 
-All code is in [`code/ch39/`](code/ch39/); `bash run.sh` reproduces everything. Numbers are real runs on this machine: **2 vCPUs of a VM, GCC 14.2 `-O2`, Google Benchmark 1.8.3**. They show *shapes* and *ratios*; the digits will differ on yours.
+All code is in [`code/ch39/`](code/ch39/); `bash run.sh` reproduces everything. (The apt-installed Google Benchmark prints `Library was built as DEBUG`: its per-iteration overhead is a fraction of a nanosecond, so the conclusions about milliseconds and ratios hold, but treat sub-nanosecond digits with suspicion.) Numbers are real runs on this machine: **2 vCPUs of a VM, GCC 14.2 `-O2`, Google Benchmark 1.8.3**. They show *shapes* and *ratios*; the digits will differ on yours.
 
 ### Experiment 1 ✅: Four benchmarks of "sum 1000 ints"
 
