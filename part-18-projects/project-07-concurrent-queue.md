@@ -68,7 +68,7 @@ A producer CASes `enq_` to claim ticket `pos`, writes into `cells_[pos & mask]`,
 
 | Bug | Symptom |
 |---|---|
-| `memory_order_relaxed` on the publishing store | Passes on x86 (stores are not reordered with other stores), **fails on ARM**. TSan reports it on x86 too. This is why you run TSan |
+| `memory_order_relaxed` on the publishing store (and the matching load) | **Measured:** with those two orders weakened, the SPSC test still printed `all tests passed` on this x86 VM, and TSan reported `data race ... SpscRing::try_pop()` on the element read. x86 hides the bug; the memory model does not allow it, and weaker CPUs (ARM, POWER) can expose it. This is why you run TSan |
 | Reading the element before the acquire load of the index | Torn / stale values; TSan race |
 | Producer and consumer indices on one cache line | Correct but 2–3× slower (measured below) |
 | Not destroying leftovers | `Probe::live != 0` |
