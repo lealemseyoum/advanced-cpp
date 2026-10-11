@@ -11,7 +11,7 @@ Eleven projects and a capstone. Each one is something you **build yourself**, te
 3. **Only then open the reference solution** in [`code/`](code/) and compare design decisions, not lines.
 4. **Write the "what I learned" paragraph** at the end of each project. If you cannot explain a decision, you did not make it.
 
-All reference solutions compile warning-free with `g++ -std=c++23 -Wall -Wextra` (GCC 13.3 and 14.2) and pass under ASan+UBSan; concurrent ones also pass under TSan. Numbers in the pages are from a 2-vCPU Linux VM and are indicative, not benchmarks of your hardware.
+All reference solutions compile warning-free with `g++ -std=c++23 -Wall -Wextra` (GCC 13.3, and 14.2 where noted) and pass under ASan+UBSan; concurrent ones also pass under TSan. Projects that use `std::expected` (1 and the capstone) need GCC: Clang 18 with libstdc++ 13 does not provide it. Project 8's deep-recursion tests behave differently by compiler and optimisation level, and the page says exactly how. Numbers in the pages are from a 2-vCPU Linux VM and are indicative, not benchmarks of your hardware.
 
 ## The projects
 
@@ -57,14 +57,14 @@ Score each project 0–3 on each row. **Below 2 on correctness or ownership mean
 code/
   p01/ raii.hpp, test.cpp
   p02/ vector.hpp, test.cpp, bench.cpp
-  p03/ small_vector.hpp, test.cpp
-  p04/ function.hpp, test.cpp
+  p03/ small_vector.hpp, test.cpp, bench.cpp
+  p04/ function.hpp, test.cpp, bench.cpp
   p05/ arena.hpp, test.cpp, bench.cpp
-  p06/ thread_pool.hpp, test.cpp
+  p06/ thread_pool.hpp, test.cpp, bench.cpp, tsan.supp
   p07/ queues.hpp, test.cpp, bench.cpp
-  p08/ task.hpp, test.cpp
-  p09/ event_loop.hpp, test.cpp
-  p10/ http_server.cpp, test.sh
-  p11/ the pybind11 extension and tests
-  capstone/ the runtime library
+  p08/ task.hpp, test.cpp, bench.cpp
+  p09/ event_loop.hpp, test.cpp, bench.cpp
+  p10/ http.hpp, server_main.cpp, test.cpp, loadgen.cpp
+  p11/ fastmath.cpp, test_fastmath.py, bench.py, run.sh
+  capstone/ include/aio/*.hpp, tests/, bench/, examples/, Makefile
 ```
