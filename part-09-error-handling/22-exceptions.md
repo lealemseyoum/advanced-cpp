@@ -831,7 +831,7 @@ The loop terminates when `fn` runs to completion: the number of iterations *is* 
 | **Standard library** | `bad_alloc`, `out_of_range` (`at()`), `bad_variant_access`, `system_error`/`filesystem_error`, stream failures (opt-in), `std::stoi`; containers' strong guarantee relies on `noexcept` moves |
 | **Constructors & operators** | The *only* way for a constructor to report failure without a two-phase init |
 | **Google, LLVM, Chromium, many game studios** | **Disable exceptions** (`-fno-exceptions`) for binary size, predictability and ABI/legacy reasons; use status codes / `StatusOr` / `expected`-like types |
-| **Boost, Qt (partially)** | Qt itself does not use exceptions in its API (Chapter 47): it is exception-*neutral* (compiled so they can pass through, but signals/slots and event handlers must not let one escape, or behaviour is undefined) |
+| **Boost, Qt (partially)** | Qt itself does not use exceptions in its API: it is exception-*neutral* (compiled so they can pass through, but signals/slots and event handlers must not let one escape, or behaviour is undefined) |
 | **Embedded / kernel / real-time** | Usually off: unbounded latency of a throw, table size, no allocator for the exception object |
 | **Python bindings (pybind11)** | Translate C++ exceptions into Python exceptions at the boundary (Chapter 46) |
 | **C interop** | A C++ exception must not propagate through C frames (Chapter 45): catch at the `extern "C"` boundary and return an error code |

@@ -586,7 +586,7 @@ The ABI surface is five C functions, an opaque pointer and `const char*`: nothin
 | **libstdc++ / glibc** | Symbol versioning, never change an existing type's layout; `GLIBCXX_3.4.x` accumulates, old binaries keep running |
 | **MSVC STL** | Stable ABI since VS 2015 (until the announced "vNext"); known inefficiencies (`std::mutex` size, `std::regex`) preserved on purpose |
 | **libc++ (LLVM)** | Stable ABI by default on Apple platforms; an opt-in `_LIBCPP_ABI_UNSTABLE` for people who rebuild everything |
-| **Qt** | Binary-compatibility promise within a major version: every public class uses the **d-pointer** (pImpl), `Q_DECLARE_PRIVATE`, reserved virtual slots, `Q_DECL_EXPORT`; adding a virtual function is forbidden in minor releases (Chapter 47) |
+| **Qt** | Binary-compatibility promise within a major version: every public class uses the **d-pointer** (pImpl), `Q_DECLARE_PRIVATE`, reserved virtual slots, `Q_DECL_EXPORT`; adding a virtual function is forbidden in minor releases |
 | **KDE Frameworks** | Written "Binary Compatibility Issues With C++" guidelines (what you may and may not change), still the best practical checklist |
 | **COM / CORBA / Windows API** | Abstract-interface-only ABIs: pure virtual classes with `QueryInterface`, never changed once published |
 | **Python / Lua / Node native modules** | `PyObject*` C ABI; C++ extensions must match the interpreter's runtime or use the stable ABI (`abi3`), see Chapter 46 |

@@ -3,7 +3,7 @@
 > **Part XVII · C and Python interoperability** &nbsp;|&nbsp; **Level 3** (implementation) &nbsp;|&nbsp; **≈ 9 hours**
 > **Prerequisites:** [Chapter 25 (smart pointers)](../part-10-memory/25-smart-pointers.md), [Chapter 29 (threading)](../part-12-concurrency/29-threading.md), [Chapter 37 (ABI)](../part-14-compilation-and-linking/37-abi.md), [Chapter 45 (C compatibility)](45-c-compatibility.md) &nbsp;|&nbsp; **Standards:** none for the Python side (CPython C API, PEP 3118 buffer protocol); C++17/20 for the glue &nbsp;|&nbsp; **Tools:** `python3.12` + headers, **pybind11 2.11.1**, NumPy 1.26, Cython 3.3, `g++-14`/`g++` 13.3
 
-[← Previous: Chapter 45](45-c-compatibility.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Chapter 47 — Modern C++ in Qt →](../part-18-qt/47-modern-cpp-in-qt.md)
+[← Previous: Chapter 45](45-c-compatibility.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Projects →](../part-18-projects/README.md)
 
 ---
 
@@ -508,4 +508,4 @@ Take the `wordcount` C++ library and its C shim from Chapter 45. Expose it to Py
 
 ---
 
-[← Previous: Chapter 45](45-c-compatibility.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Chapter 47 — Modern C++ in Qt →](../part-18-qt/47-modern-cpp-in-qt.md)
+[← Previous: Chapter 45](45-c-compatibility.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Projects →](../part-18-projects/README.md)

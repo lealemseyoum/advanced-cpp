@@ -813,7 +813,7 @@ ASan/UBSan confirm the string is freed exactly once per owner: no leak, no doubl
 | **Protocol/message handling** | `variant<Connect, Data, Close, Error>` + `visit`: a state machine as a type |
 | **`std::filesystem`, `std::from_chars`, I/O APIs** | Error code **out-parameter overloads** are the `-fno-exceptions`-friendly version; `std::expected` is the direction of new APIs (`std::from_chars` itself still returns a struct) |
 | **Config/plugin property bags** | `std::any` or (better) `variant<bool, int, double, string>`: usually the closed set is enough; `any` is the escape hatch |
-| **Qt** | `QVariant`: a `variant` of Qt's meta-types **with open registration** (`qRegisterMetaType`), the dynamic, extensible cousin; it also gives signal/slot argument marshalling (Chapter 47) |
+| **Qt** | `QVariant`: a `variant` of Qt's meta-types **with open registration** (`qRegisterMetaType`), the dynamic, extensible cousin; it also gives signal/slot argument marshalling |
 | **Qt 6.6+ `QtPrivate::Expected`/`std::expected` in QtCore** | Tracks the direction: Qt's own result type is ceding to `std::expected` |
 
 > **Opinion: the default order of preference for a function that can "fail".** (1) Make failure impossible by the type (a validated `Port` type that cannot be 70000). (2) `std::optional` when "none" is self-explanatory. (3) `std::expected` when the caller needs the reason and will handle it locally. (4) Exceptions when the failure is rare and the handler is far away, or the failing operation is a constructor. (5) `bool` + out-parameter / error code only at ABI/C boundaries. **Never** use `-1`/`nullptr` sentinels in new C++ code, and **never** `std::any` where a `variant` fits.

@@ -686,7 +686,7 @@ Implement **`FlatMap<K, V>`**, a sorted-`vector` associative container, and comp
 | **Linux kernel** (C, not C++) | Intrusive lists and red-black trees: the node is *inside* the object. No allocation, no separate node. The C++ equivalent is Boost.Intrusive or hand-rolled (Chapter 26) |
 | **LLVM** | `SmallVector<T, N>` (Project 3), `DenseMap` (open addressing), `StringMap`: LLVM avoids `std::map`/`std::unordered_map` almost entirely because they were measured slow |
 | **Abseil / Folly** | `flat_hash_map` (SwissTable, open addressing, SIMD group probing): typically 2–3× faster than `std::unordered_map` and 2× less memory; the standard's *interface* (stable references) rules this out for `std::` |
-| **Qt** | `QList` (Qt 6: contiguous like `vector`), `QMap` (a sorted tree), `QHash` (open-addressing-like in Qt 6): copy-on-write; Chapter 47 compares |
+| **Qt** | `QList` (Qt 6: contiguous like `vector`), `QMap` (a sorted tree), `QHash` (open-addressing-like in Qt 6): copy-on-write |
 | **Games / HPC** | SoA arrays in `vector` (Chapter 27), `mdspan` for grids |
 
 > **Opinion on `std::unordered_map`.** Its interface mandates node-based buckets, so it can never be as fast as modern open-addressing tables, and the standard cannot change that without breaking users who rely on stable references. If a profile shows hash-table lookup is hot, replace it with `absl::flat_hash_map`, `boost::unordered_flat_map` or `ankerl::unordered_dense`: not a micro-optimization, a structural one. Otherwise, keep it.

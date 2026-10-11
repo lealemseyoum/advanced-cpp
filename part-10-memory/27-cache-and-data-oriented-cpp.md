@@ -646,7 +646,7 @@ id=3 x=3.5
 | **Linux kernel** | `____cacheline_aligned_in_smp`, per-CPU variables, `struct page` packing, RCU to avoid shared writes |
 | **Folly / Abseil** | `F14` and Swiss tables: metadata bytes grouped for SIMD probing, probes within a cache line or two. `absl::flat_hash_map` beats `std::unordered_map` by 2–5× largely on locality |
 | **LMAX Disruptor, SPSC rings** | Padded head/tail indices to avoid false sharing; single-writer principle (Chapters 31–32) |
-| **Qt** | `QVector`/`QList` are contiguous; implicit sharing copies on write; QGraphicsView and model/view code suffer if per-item `QObject`s (≈ 100+ bytes + heap) are used for millions of rows: the usual fix is a model backed by a contiguous `std::vector` of PODs and `QAbstractItemModel` that indexes it (Chapter 47) |
+| **Qt** | `QVector`/`QList` are contiguous; implicit sharing copies on write; QGraphicsView and model/view code suffer if per-item `QObject`s (≈ 100+ bytes + heap) are used for millions of rows: the usual fix is a model backed by a contiguous `std::vector` of PODs and `QAbstractItemModel` that indexes it |
 | **Python + NumPy** | NumPy arrays are SoA/contiguous by design — it is *the* reason NumPy loops over arrays beat lists of Python objects by 10–100×; understanding strides is what makes `np.ascontiguousarray` and views make sense (Chapter 46) |
 | **Compilers** | Arena-allocated, contiguous IR (Zig, Carbon use index-based "struct-of-arrays" ASTs; LLVM's `SmallVector`, `DenseMap`) |
 

@@ -128,7 +128,7 @@ C++ moves quickly, and a feature being *in the standard* is not the same as bein
  Compile-time ─► Polymorphism ─► Errors ─► Memory ─► UB ─► Concurrency ─► Coroutines
         │                                                                       │
         ▼                                                                       ▼
- Compilation / ABI / modules ─► CMake ─► Performance ─► Library design ─► Interop ─► Qt
+ Compilation / ABI / modules ─► CMake ─► Performance ─► Library design ─► Interop
                                                                     │
                                                                     ▼
                                              11 projects  ─►  capstone runtime library
@@ -265,29 +265,23 @@ C++ moves quickly, and a feature being *in the standard* is not the same as bein
 | 45 | [C compatibility](part-17-c-and-python-interop/45-c-compatibility.md) | 3 |
 | 46 | [C++ and Python](part-17-c-and-python-interop/46-python-interop.md) | 3 |
 
-### Part XVIII — Qt and modern C++
-
-| Ch | Title | Level |
-|:--:|---|:--:|
-| 47 | [Modern C++ in Qt](part-18-qt/47-modern-cpp-in-qt.md) | 3 |
-
-### Part XIX — Systems programming projects
+### Part XVIII — Systems programming projects
 
 | Project | Title |
 |:--:|---|
-| — | [Projects overview and grading rubric](part-19-projects/README.md) |
-| 1 | [RAII resource library](part-19-projects/project-01-raii-library.md) |
-| 2 | [Custom `Vector<T>`](part-19-projects/project-02-custom-vector.md) |
-| 3 | [`SmallVector<T, N>`](part-19-projects/project-03-small-vector.md) |
-| 4 | [Type-erased function](part-19-projects/project-04-type-erased-function.md) |
-| 5 | [Memory arena, pool and PMR resource](part-19-projects/project-05-memory-arena.md) |
-| 6 | [Thread pool](part-19-projects/project-06-thread-pool.md) |
-| 7 | [Concurrent queue](part-19-projects/project-07-concurrent-queue.md) |
-| 8 | [Coroutine `Task<T>`](part-19-projects/project-08-coroutine-task.md) |
-| 9 | [`epoll` event loop](part-19-projects/project-09-event-loop.md) |
-| 10 | [Async HTTP server](part-19-projects/project-10-async-http-server.md) |
-| 11 | [Python extension](part-19-projects/project-11-python-extension.md) |
-| ★ | [**Capstone: an asynchronous runtime library**](part-19-projects/capstone.md) |
+| — | [Projects overview and grading rubric](part-18-projects/README.md) |
+| 1 | [RAII resource library](part-18-projects/project-01-raii-library.md) |
+| 2 | [Custom `Vector<T>`](part-18-projects/project-02-custom-vector.md) |
+| 3 | [`SmallVector<T, N>`](part-18-projects/project-03-small-vector.md) |
+| 4 | [Type-erased function](part-18-projects/project-04-type-erased-function.md) |
+| 5 | [Memory arena, pool and PMR resource](part-18-projects/project-05-memory-arena.md) |
+| 6 | [Thread pool](part-18-projects/project-06-thread-pool.md) |
+| 7 | [Concurrent queue](part-18-projects/project-07-concurrent-queue.md) |
+| 8 | [Coroutine `Task<T>`](part-18-projects/project-08-coroutine-task.md) |
+| 9 | [`epoll` event loop](part-18-projects/project-09-event-loop.md) |
+| 10 | [Async HTTP server](part-18-projects/project-10-async-http-server.md) |
+| 11 | [Python extension](part-18-projects/project-11-python-extension.md) |
+| ★ | [**Capstone: an asynchronous runtime library**](part-18-projects/capstone.md) |
 
 ### Appendices
 
@@ -314,7 +308,7 @@ Roughly **30 weeks at 6–8 hours a week**. Go faster through chapters you alrea
 | 20–23 | Concurrency and the memory model | 29–32 | 6, 7 |
 | 24–26 | Coroutines and async I/O | 33–35 | 8, 9, 10 |
 | 27–28 | Build, ABI, modules, performance | 36–41 | — |
-| 29–30 | Library design, interop, Qt, capstone | 42–47 | 11, capstone |
+| 29–30 | Library design, interop, capstone | 42–46 | 11, capstone |
 
 > [!TIP]
 > If you can only do one thing per chapter, do the **implementation exercise**. If you can do two, add the **assembly investigation**.
@@ -367,8 +361,8 @@ Output and assembly are tagged with the compiler version that produced them. You
 advanced-cpp/
 ├── README.md                  ← you are here
 ├── docs/                      toolchain, reading list, glossary
-├── part-01-…/ … part-18-…/    the 47 chapters, grouped by part
-├── part-19-projects/          11 projects + capstone
+├── part-01-…/ … part-17-…/    the 46 chapters, grouped by part
+├── part-18-projects/          11 projects + capstone
 └── tools/                     snippet and link checkers
 ```
 

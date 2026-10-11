@@ -815,7 +815,7 @@ streamable:     int=true Opaque=false
 | **`std::thread`, `std::bind`, `make_pair`** | `decay_t` of each argument = the stored type |
 | **`std::chrono`** | `common_type<duration<R1,P1>, duration<R2,P2>>` finds the finest-grained common duration |
 | **`std::format`** | Detects `formatter<T>` specializations to know whether `T` is formattable |
-| **Qt** | `QTypeInfo<T>` is Qt's own trait set (`Q_PRIMITIVE_TYPE`, `Q_MOVABLE_TYPE`) that tells `QList`/`QVector` whether they can use `memmove` for relocation; the pre-`<type_traits>` design of the same idea ([Chapter 47](../part-18-qt/47-modern-cpp-in-qt.md)) |
+| **Qt** | `QTypeInfo<T>` is Qt's own trait set (`Q_PRIMITIVE_TYPE`, `Q_MOVABLE_TYPE`) that tells `QList`/`QVector` whether they can use `memmove` for relocation; the pre-`<type_traits>` design of the same idea |
 
 ---
 

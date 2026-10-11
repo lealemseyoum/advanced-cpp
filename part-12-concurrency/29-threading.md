@@ -774,7 +774,7 @@ C++ cannot *forbid* the escape hatch (`&*guard` stored beyond the guard's lifeti
 | **Chromium** | Sequenced task runners instead of locks: each object is owned by one “sequence”; communication by posting tasks. Avoids most lock bugs by design |
 | **Go / Rust / actor systems** | “Share memory by communicating”: channels. In C++, the `Channel<T>` exercise is the same idea |
 | **Database engines** | Fine-grained locks, latches (RW), lock-free paths for hot data; deadlock *detection* rather than avoidance |
-| **Qt** | `QThread`, `QMutex`, `QWaitCondition`, `QtConcurrent`; signals/slots across threads use **queued connections** (an event posted to the receiver's thread) so UI objects are touched only by the GUI thread; `QObject`s have thread affinity (Chapter 47) |
+| **Qt** | `QThread`, `QMutex`, `QWaitCondition`, `QtConcurrent`; signals/slots across threads use **queued connections** (an event posted to the receiver's thread) so UI objects are touched only by the GUI thread; `QObject`s have thread affinity |
 | **Python extensions** | The GIL serialises Python bytecode; native threads must release it around blocking or heavy C++ work (Chapter 46) |
 | **Linux kernel / glibc** | futex-based locks: the same design as `std::mutex`; adaptive spinning and priority-inheritance variants exist for real-time (`PTHREAD_PRIO_INHERIT`) |
 

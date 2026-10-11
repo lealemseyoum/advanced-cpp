@@ -20,7 +20,6 @@
 | CMake + Ninja | Builds | CMake ≥ 3.28 |
 | Google Benchmark, GoogleTest | Benchmarks and tests | recent |
 | Python 3 + dev headers, pybind11 | Chapter 46 and Project 11 | 3.10+ |
-| Qt 6 | Chapter 47 | 6.5+ |
 
 ## 2. Installing on Ubuntu 24.04
 
@@ -39,12 +38,6 @@ Ubuntu 24.04 ships GCC 13 as `g++` and offers GCC 14 as `g++-14`. Make the newer
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 140
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 140
 sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-18 180
-```
-
-Qt 6 for chapter 48:
-
-```bash
-sudo apt install -y qt6-base-dev qt6-base-dev-tools
 ```
 
 ## 3. The experiment workflow
