@@ -1,0 +1,6 @@
+# libstdc++.so is not instrumented, so TSan cannot see the atomic reference count inside
+# std::exception_ptr. It then reports a false race between the thread that rethrows a
+# future's exception and the thread that releases the shared state. Reproduced with a bare
+# std::promise/std::future program that contains none of our code (see project-06 page).
+race:std::__exception_ptr::exception_ptr::_M_release
+race:std::runtime_error::~runtime_error
