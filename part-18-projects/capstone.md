@@ -21,7 +21,7 @@ Combine what you built into one coherent library, **`aio`**, and put a real work
    http::Server  → per-connection Arena → parse_request → Router (concept-constrained handlers, coroutines)
 ```
 
-This is a *design* exercise as much as a coding one. The reference solution is about 1 100 lines of library code (plus 600 of tests), and each file is small enough to read in a sitting. What matters is where the **seams** are, and which of your earlier decisions turn out to be wrong when the pieces meet.
+This is a *design* exercise as much as a coding one. The reference solution is about 1 100 lines of library code (a third of it derived from earlier projects) (plus about 320 lines of tests), and each file is small enough to read in a sitting. What matters is where the **seams** are, and which of your earlier decisions turn out to be wrong when the pieces meet.
 
 ## Requirements and where the reference solution meets them
 
