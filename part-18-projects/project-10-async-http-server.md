@@ -100,7 +100,7 @@ connections   requests/connection   result
 | A connection closed in the middle of `write_all` | `SIGPIPE` kills the process: use `MSG_NOSIGNAL` and ignore `EPIPE` |
 | Handler exception propagates out of the connection task | `terminate` in the detached coroutine; one bad request kills the server |
 | `shutdown()` that closes the listener while the accept coroutine sits in `epoll` | The coroutine never wakes: the reference solution makes a throwaway connection to wake it |
-| Forgetting `TCP_NODELAY` | 40 ms stalls on request/response patterns (Nagle's algorithm meets delayed ACK) |
+| Forgetting `TCP_NODELAY` | Latency stalls (typically tens of milliseconds) on request/response patterns when Nagle's algorithm meets delayed ACK; not measured here |
 
 ## Think about (and write answers)
 
