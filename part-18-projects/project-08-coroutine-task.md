@@ -96,7 +96,7 @@ Clang 18.1.3   0.96 ns        18.3 ns           10 000 002
 ```
 
 - A `co_await` of a freshly created leaf task costs **18-29 ns here: roughly 20 to 30 times the cost of a call**, and it performs **one heap allocation per task** (the frame) plus the transfers. That is not a reason to avoid coroutines (an I/O wait takes microseconds), but it is a reason not to use `Task<int>` for something that could be a function call.
-- **The allocation was not elided** by any of the three compilers for this type (the count is one per iteration). Frame elision ("HALO") depends on the compiler seeing that the task's lifetime is nested inside the caller's, and on annotations (Clang has `[[clang::coro_await_elidable]]`, from version 19; I did not test it). I did not investigate beyond counting allocations: treat "coroutines allocate a frame per call unless proven otherwise" as the working assumption.
+- **The allocation was not elided** by any of the three compilers for this type (the count is one per iteration). Frame elision ("HALO") depends on the compiler seeing that the task's lifetime is nested inside the caller's, and on annotations (newer Clang releases add an attribute for this (`[[clang::coro_await_elidable]]`); I did not test it, and Clang 18 here does not have it). I did not investigate beyond counting allocations: treat "coroutines allocate a frame per call unless proven otherwise" as the working assumption.
 - These are microbenchmarks of the *machinery*. They say nothing about a coroutine that suspends on real I/O.
 
 ## Stretch goals
