@@ -97,7 +97,7 @@ two threads with blocking read/write   38.8 - 38.9 us per round trip
 ```
 
 - **The single-threaded coroutine loop is about 6-7× faster per round trip than two blocking threads.** The difference is mostly thread wake-up latency: each blocking `read` must be woken by the scheduler on another CPU, while on the loop the "other side" is already running in the same thread and the data is ready on the next `epoll_wait`. This is a feature of the *ping-pong pattern* on a VM; do not generalise it to throughput with many connections.
-- **100 000 timers cost ~100 ms of overhead beyond the 50-99 ms sleep**, i.e. about 1 µs per sleeper (frame allocation, `multimap` insertion, resumption). Fine for this scale; this is where a timer wheel would pay off at millions.
+- **100 000 timers cost ~55 ms beyond the longest sleep (99 ms)**: wall time 152-156 ms, so roughly 0.5 µs per sleeper (frame allocation, `multimap` insertion, resumption). Fine for this scale; this is where a timer wheel would pay off at millions.
 - **Each wait still makes three system calls.** That's the biggest obvious cost left, and it is the reference solution's deliberate simplification (see "Think about" #2).
 
 ## Stretch goals
