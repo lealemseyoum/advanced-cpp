@@ -1,7 +1,7 @@
 # Chapter 27 — Cache and Data-Oriented C++
 
 > **Part X · Memory** &nbsp;|&nbsp; **Level 5** (systems/hardware) &nbsp;|&nbsp; **≈ 8 hours**
-> **Prerequisites:** [Chapter 11](../part-05-standard-library/11-modern-containers.md), [Chapter 24](24-dynamic-memory.md), [Chapter 26](26-allocators-and-memory-resources.md) &nbsp;|&nbsp; **Standards:** C++17 (`hardware_destructive_interference_size`), C++20 (`std::assume_aligned`, `[[likely]]`/`[[unlikely]]`), C++23 (`std::mdspan`, `std::flat_map`, `[[assume]]`), C++26 (`std::inplace_vector`, SIMD library) &nbsp;|&nbsp; **Tools:** `g++-14`, `lscpu`, `perf` (not installed in this sandbox; commands are shown for your machine)
+> **Prerequisites:** [Chapter 11](../part-05-standard-library/11-containers.md), [Chapter 24](24-dynamic-memory.md), [Chapter 26](26-allocators-and-memory-resources.md) &nbsp;|&nbsp; **Standards:** C++17 (`hardware_destructive_interference_size`), C++20 (`std::assume_aligned`, `[[likely]]`/`[[unlikely]]`), C++23 (`std::mdspan`, `std::flat_map`, `[[assume]]`), C++26 (`std::inplace_vector`, SIMD library) &nbsp;|&nbsp; **Tools:** `g++-14`, `lscpu`, `perf` (not installed in this sandbox; commands are shown for your machine)
 
 [← Previous: Chapter 26](26-allocators-and-memory-resources.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Chapter 28 — Undefined behavior →](../part-11-undefined-behavior/28-undefined-behavior.md)
 
