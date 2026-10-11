@@ -71,7 +71,7 @@ AssertionError: 12350427 != 16000000
 AssertionError: 14943291 != 16000000
 ```
 
-About a quarter of the increments were lost, every time. **Releasing the GIL transfers the thread-safety responsibility from the interpreter to you.** Without the release, the unlocked code would have been correct by accident, which is also why this bug survives code review.
+Between 7% and 23% of the increments were lost in these three runs, and every run failed. **Releasing the GIL transfers the thread-safety responsibility from the interpreter to you.** Without the release, the unlocked code would have been correct by accident, which is also why this bug survives code review.
 
 ### A surprise worth keeping
 
@@ -95,7 +95,7 @@ map a Python function over 100k elements
   numpy  x*2                 0.050 ms
 ```
 
-- **The C++ version is 12× faster than `np.convolve` and 120× faster than pure Python**, because it is a single pass over contiguous memory with a running sum (`O(n)`), whereas `np.convolve` does `O(n × window)` work. Part of the win is the *algorithm*, not the language: the NumPy "cumsum trick" is also `O(n)` and is within 11× of the C++. Always compare against the best Python solution, not the naive one.
+- **The C++ version is 13× faster than `np.convolve` and 119× faster than pure Python**, because it is a single pass over contiguous memory with a running sum (`O(n)`), whereas `np.convolve` does `O(n × window)` work. Part of the win is the *algorithm*, not the language: the NumPy "cumsum trick" is also `O(n)`; it is still about 11× slower than the C++ here. Always compare against the best Python solution, not the naive one.
 - **`map_py` is slower than a list comprehension.** Calling Python from C++ per element pays the interpreter's call cost *plus* conversion in both directions, with the GIL held. Native code cannot make a Python callback fast. If the per-element work is a Python function, keep the loop in Python; if it must be fast, implement the operation natively or express it in NumPy (0.05 ms here).
 - **The binding itself is cheap, the boundary is not:** 1.55 ms for 1M elements is dominated by the loop, not by the call. A call that processes ten elements would be dominated by the dispatcher (see Chapter 46, measurements).
 
