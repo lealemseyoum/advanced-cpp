@@ -1,6 +1,6 @@
 # Capstone — A Small Asynchronous Runtime Library
 
-[← Project 11](project-11-python-extension.md) &nbsp;|&nbsp; [Projects overview](README.md) &nbsp;|&nbsp; [Course map](../README.md)
+[← Project 11](project-11-python-extension.md) &nbsp;|&nbsp; [Projects overview](README.md) &nbsp;|&nbsp; [Course map](../README.md) &nbsp;|&nbsp; [Next: Epilogue, the state of the art →](../part-19-epilogue/47-state-of-the-art.md)
 
 > **Level 5 · ≈ 30 hours · Builds on:** everything. Uses the work of Projects 1 and 4–10.
 > **Reference solution:** [`code/capstone/`](code/capstone/) (`include/aio/`, `tests/`, `bench/`, `examples/`, `Makefile`)

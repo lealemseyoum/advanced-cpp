@@ -283,6 +283,12 @@ C++ moves quickly, and a feature being *in the standard* is not the same as bein
 | 11 | [Python extension](part-18-projects/project-11-python-extension.md) |
 | ★ | [**Capstone: an asynchronous runtime library**](part-18-projects/capstone.md) |
 
+### Part XIX — Epilogue
+
+| Ch | Title | Level |
+|:--:|---|:--:|
+| 47 | [The state of the art: what is safe to use in C++20/23/26](part-19-epilogue/47-state-of-the-art.md) | 2 |
+
 ### Appendices
 
 | | |
@@ -308,7 +314,7 @@ Roughly **30 weeks at 6–8 hours a week**. Go faster through chapters you alrea
 | 20–23 | Concurrency and the memory model | 29–32 | 6, 7 |
 | 24–26 | Coroutines and async I/O | 33–35 | 8, 9, 10 |
 | 27–28 | Build, ABI, modules, performance | 36–41 | — |
-| 29–30 | Library design, interop, capstone | 42–46 | 11, capstone |
+| 29–30 | Library design, interop, capstone, epilogue | 42–47 | 11, capstone |
 
 > [!TIP]
 > If you can only do one thing per chapter, do the **implementation exercise**. If you can do two, add the **assembly investigation**.
@@ -361,8 +367,9 @@ Output and assembly are tagged with the compiler version that produced them. You
 advanced-cpp/
 ├── README.md                  ← you are here
 ├── docs/                      toolchain, reading list, glossary
-├── part-01-…/ … part-17-…/    the 46 chapters, grouped by part
+├── part-01-…/ … part-17-…/    the 47 chapters, grouped by part
 ├── part-18-projects/          11 projects + capstone
+├── part-19-epilogue/          chapter 47 + the support-matrix scripts
 └── tools/                     snippet and link checkers
 ```
 
