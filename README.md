@@ -128,7 +128,7 @@ C++ moves quickly, and a feature being *in the standard* is not the same as bein
  Compile-time ─► Polymorphism ─► Errors ─► Memory ─► UB ─► Concurrency ─► Coroutines
         │                                                                       │
         ▼                                                                       ▼
- Compilation / ABI / modules ─► CMake ─► Performance ─► Library design ─► Interop
+ Compilation / ABI / modules ─► Performance ─► Library design ─► Interop
                                                                     │
                                                                     ▼
                                              11 projects  ─►  capstone runtime library
